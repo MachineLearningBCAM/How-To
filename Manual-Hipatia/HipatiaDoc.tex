@@ -1,0 +1,231 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphics}
+\usepackage{subfigure}
+\usepackage{hyperref}
+\usepackage[backend=biber,style=apa]{biblatex}
+\usepackage[usenames]{color}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{comment}
+\usepackage{outlines}
+
+\lstset{columns=fullflexible, basicstyle=\ttfamily,
+	backgroundcolor=\color{light-gray},xleftmargin=0.5cm,frame=tlbr,framesep=4pt,framerule=0pt}
+\lstset {
+	language=python,                  % language code
+	basicstyle=\footnotesize,      % font size
+	numbers=none,                  % where to put line numbers
+	numberstyle=\footnotesize,     % numbers size
+	numbersep=5pt,                 % how far the line numbers are from the code
+	backgroundcolor=\color{white}, % background color
+	showspaces=false,                          % show spaces (with underscores)
+	showstringspaces=false,            % underline spaces within strings
+	showtabs=false,                            % show tabs using underscores
+	frame=single,                  % adds a frame around the code
+	tabsize=4,                     % default tabsize
+	breaklines=true,                  % automatic line breaking
+	columns=fullflexible,
+	breakautoindent=false,
+	framerule=1pt,
+	xleftmargin=0pt,
+	xrightmargin=0pt,
+	breakindent=0pt,
+	resetmargins=true
+}
+\title{Cluster documentation - Hipatia}
+\date{October  2020}
+\author{BCAM}
+
+\begin{document}
+	\maketitle
+	\tableofcontents
+	\section{Introduction}
+		Hipatia is the cluster name we have given it, but it is based in Slurm, some websites that may interest us with information about Slurm are:
+		\begin{itemize}
+			\item \url{https://slurm.schedmd.com/overview.html}
+			\item \url{https://support.ceci-hpc.be/doc/_contents/QuickStart/SubmittingJobs/SlurmTutorial.html}
+		\end{itemize}
+		This cluster is developed under a Debian distribution and you need to have an account in order to login to the server, if in the following steps you get a login error, ask IT to create an account.
+	\section{Connection}
+		To connect to the server by using SSH on Linux and MAC, we've two options.\\
+		By name:
+		\begin{lstlisting}[caption=Connection Hipatia, label=lst:connectionHipatia]
+			ssh -p 6556 <username>@hpc.bcamath.org
+		\end{lstlisting}
+		or directly by IP:\\
+		\begin{lstlisting}[caption=Connection Hipatia, label=lst:connectionHipatia]
+			ssh <username>@150.241.212.41 -p6556
+		\end{lstlisting}
+		After this, we're connected in our personal directory, ``/home/$<$username$>$".\\
+		
+	\section{Internal structure - Hipatia}
+		\subsection{Personal directories - Hipatia}
+			We've available mainly two personal directories to work in them:
+			\begin{itemize}
+				\item ``/home/$<$username$>$/" $\Rightarrow$ We will usually work in this directory, so we'll transfer the files/folders from local to here and then run the Slurm commands to run our application
+				\item ``/workspace/scratch/users/$<$username$>$/" $\Rightarrow$ In case that we work with a folder structure with local references, it's advisable to work directly here.
+			\end{itemize} 
+		\subsection{Partitions Hipatia}
+			Inside the cluster, we have the possibility of running our project in different partitions, to see what options we have, we execute the command ``sinfo". Here we see the following partitions\\ 
+			\begin{itemize}
+				\item short $\Rightarrow$ for jobs that may take up to 30 minutes at most
+				\item medium $\Rightarrow$ for jobs that may take up to 6 hours at most
+				\item large $\Rightarrow$ for jobs that may take up to 5 days at most
+				\item xlarge $\Rightarrow$ for jobs that may take up to 30 days at most
+				\item extra $\Rightarrow$ for jobs that may take up to 90 days at most
+			\end{itemize} 
+	\section{Basic commands}
+		Here we can see several basic commands once we are connected:\\
+		\begin{itemize}
+			\item To see our pending jobs $\Rightarrow$ squ\\
+			\item To see information about jobs located in the Slurm scheduling queue of a specific user $\Rightarrow$ squeue -u $<$username$>$\\
+			\item To see why a job is in that state $\Rightarrow$ scontrol -d show job $<$JOBID$>$ $|$ grep Reason\\
+			\item To cancel the execution of a job $\Rightarrow$ scancel $<$jobid$>$\\
+			\item To cancel all jobs of a specific user $\Rightarrow$ scancel -u $<$username$>$\\
+			\item View information about Slurm nodes and partitions $\Rightarrow$ sinfo\\
+			\item To see what modules are available to load $\Rightarrow$ module avail
+			\item To submit script for a later execution $\Rightarrow$ sbatch\\
+				Here we can set options such as the number of tasks, the maximum execution time, the partition we want to use, the number of nodes we want to use for this job, etc
+			\item To create job allocation and launch a job step, that is to run parallel jobs $\Rightarrow$ srun
+			\item As Slurm is finally Linux, let's not forget that we can use all the Bash commands like: ls, cat, rm, mkdir, etc
+		\end{itemize} 				
+	
+	\section{File ``.sl``}
+		In order to simplify the commands that we write in the cluster to run our scripts, we create a file ".sl".\\
+		We recommend started with the configuration commands, for example we can see here:
+		\begin{itemize}
+			\item --time $\Rightarrow$ Set a limit on the total run time of the job allocation, once elapsed, it will stop
+			\item --output $\Rightarrow$ File name to save the output. The default file name is "slurm-\%j.out", where the "\%j" is replaced by the job ID.
+			\item --error $\Rightarrow$  File name to save the errors. The default file name is "slurm-\%j.out", where the "\%j" is replaced by the job ID.
+			\item --ntasks $\Rightarrow$ Request the maximum ntasks be invoked on each core.	
+			\item --ntasks-per-node $\Rightarrow$ Request that ntasks be invoked on each node. If used with the --ntasks option, the --ntasks option will take precedence and the --ntasks-per-node will be treated as a maximum count of tasks per node.
+			\item --cpus-per-task $\Rightarrow$ Advise the Slurm controller how many processors will require per task, without this option, the default value is 1 per task.
+			\item --mem-per-cpu $\Rightarrow$ Minimum memory required per allocated CPU. Default units are megabytes, but we can specified different units using the suffix [K|M|G|T]
+			\item --partition $\Rightarrow$ Request a specific partition for the execution of our program. If not specified, the default behavior is to allow the slurm controller to select the default partition as designated by the system administrator.
+			\item --job-name $\Rightarrow$ This is the name that will appear when we look at the work in progress 
+		\end{itemize} 
+		We can see more options in \url{https://slurm.schedmd.com/sbatch.html}\\
+		A real example of this section is:\\
+		\begin{lstlisting}[caption=Connection Hipatia, label=lst:connectionHipatia]
+			#SBATCH --time=00:30:00 #Walltime
+			#SBATCH --output=slurm-%j.out
+			#SBATCH --error=slurm-%j_err.txt
+			#SBATCH --ntasks=1 # number of tasks
+			#SBATCH --ntasks-per-node=1 #number of tasks per node
+			#SBATCH --cpus-per-task=1 # 4 OpenMP Threads
+			#SBATCH --mem-per-cpu=1G # memory/core
+			#SBATCH --partition=medium
+			#SBATCH --job-name=Python_proj
+		\end{lstlisting}
+		After the initial configuration, we can see the modules required by the program/script we are going to run and load, remind you that we can see the different modules available with command "module avail".\\ 
+		Here we can see an example to load Python 3.7:\\
+		\begin{lstlisting}[caption=Load module Python 3.7, label=lst:loadPython37]
+			module load Python/3.7.4-GCCcore-8.3.0j
+		\end{lstlisting}
+		Here we can see an example to load Matlab:\\
+		\begin{lstlisting}[caption=Load module MATLAB, label=lst:loadMatlab]
+			module load MATLABj
+		\end{lstlisting}
+		Finally, we will write the command to run the script/scripts we want. An example could be:
+		\begin{lstlisting}[caption=Run file Python, label=lst:runFilePython37]
+			srun python helloWorld.py
+		\end{lstlisting}
+		If you're going to run a Matlab script, here an example:
+		\begin{lstlisting}[caption=Run file Matlab, label=lst:runFileMatlab]
+			srun matlab -nodisplay -r "HEM 60 twice, exit"
+		\end{lstlisting}
+		This is enough to generate our "sl" file, but there is a lot of flexibility and we can develop it as complex as we want.\\
+		Beyond all the available configuration commands, we can perform file manipulation, run several scripts in a sequential way... there are no limits.\\
+		PS: Try to be careful with the resources requested to be in solidarity with the colleagues.\\
+	\section{Examples}
+		\subsection{Hello World - Python}
+			We are going to develop a script to print "Hello World" and the current version of Python.
+			\begin{lstlisting}[caption=helloWorld.py, label=lst:helloWorldPythonHipatia]
+				import sys
+				
+				print("Hello Word")
+				print(sys.version)
+			\end{lstlisting}
+			So, we'll need develop as well the file ".sl" to configure the Slurm run in Hipatia.\\
+			This time, we're going to seet a limit on the total run time (6 hours),we're going to use just 500MB of memory and the name in the cluster will be "Python\_proj", we're going to save all the outputs and the errors that come out while the script is running, as our script is very simple, we don't need more than 1 cpu per task and finally we are going to run it on partition "medium".\\
+			We are going to load the module "python 3.7" with the command "module load..." and we finally write the command to run the python script with "srun python..."\\
+			We've the code:
+			\begin{lstlisting}[caption=testHipatia.sl, label=lst:testHipatiaSl]
+				#!/bin/bash
+				#SBATCH --time=6:00:00     # Walltime 
+				#SBATCH --mem-per-cpu=500M  # memory/cpu 
+				#SBATCH --job-name=Python_proj  # CAREFUL TO CHANGE IT ALSO IN THE RUN LINE
+				#SBATCH --output=slurm-%j_out.txt
+				#SBATCH --error=slurm-%j_err.txt
+				#SBATCH --cpus-per-task=1 
+				#SBATCH --partition=medium
+				
+				module load Python/3.7.4-GCCcore-8.3.0
+				srun python helloWorld.py 
+			\end{lstlisting}
+			Now, all that remains is to transfer these two files to the cluster, for example with the command "scp", execute the script with the command:
+			\begin{lstlisting}[caption=scp example file, label=lst:scpExampleFile]
+				sbatch testHipatiaL.sl 
+			\end{lstlisting}
+			We'll receive a message with the job ID like "Submitted batch job 1170397".\\
+			We can check the job with the command "squ":
+			\begin{lstlisting}[caption=scp command, label=lst:scpCommand]
+				JOBID PARTITION PRIOR     NAME     USER    STATE       TIME  TIME_LIMIT  NODES CPUS TRES_P           START_TIME     NODELIST(REASON)      QOS
+				1170397    medium 14801 Python_p    adiaz  RUNNING       0:01     6:00:00      1    1    N/A  2020-10-26T15:13:21                 n001   normal
+			\end{lstlisting}
+            When our job is finished, we will see the errors file, "1170397\_err.txt" and the outputs file "1170397\_out.txt", an easy way to read them is with the command "cat namefile.txt".\\
+			In our example, we have said that it will generate the output and error files starting with the ID that Hipatia have assigned to the execution of the script, so that we can difference easily the different executions.\\
+			We can read the output file, for example with command "cat", like "cat 1159037\_err.txt" and "cat 1159037\_out.txt".\\
+	\subsection{ Example file ``.sl` Matlab}
+		An example of file ".sl" for Matlab:
+		\begin{lstlisting}[caption=scp command, label=lst:scpCommand]
+			#!/bin/bash
+			#SBATCH --time=6:00:00     # Walltime 
+			#SBATCH --mem-per-cpu=800M  # memory/cpu 
+			#SBATCH --job-name=Matlab_proj 
+			#SBATCH --output=%j_out.txt
+			#SBATCH --error=%j_err.txt
+			#SBATCH --cpus-per-task=4 
+			#SBATCH --partition=medium
+			
+			module load MATLAB
+			## run Matlab
+			srun matlab -nodisplay -r "matlab_parfor.m, exit" 
+			## option -noFigureWindows allows to create and save figures without opening figure
+		\end{lstlisting}
+		This will run the script "matlab\_parfor.m".
+	\section{Appendix 1: Copying working structure}
+		To transfer files between local and server, here we suggest the SCP command that allows you to securely copy files and directories between two locations.\\
+		When transferring data with scp, both the files and password are encrypted so that anyone snooping on the traffic doesn’t get anything sensitive.\\
+		If you're not familiar with the commands and you prefer use a visual software, you can use Filezilla to transfer all the files and directories between local-server and server-local.\\
+		We need hence, use the command as follow:
+		\begin{lstlisting}[caption=scp command, label=lst:scpCommand]
+			scp [OPTION] [user@]SRC_HOST:]file1 [user@]DEST_HOST:]file2
+		\end{lstlisting}
+		To transfer a file from local to server (remote) or from server to local, you will be asked for a user name and password.\\
+		An example of a single file:
+		\begin{lstlisting}[caption=scp example file, label=lst:scpExampleFile]
+			scp -P 6556 "/home/adiaz/Documents/MRC_bcam/minimax-hipatia.sl" adiaz@hpc.bcamath.org:/home/adiaz/minimax-risk-classifier 
+		\end{lstlisting}
+		The argument "-P" is to specify the port.\\
+		An example of copy a directory recursively (just add argument "-r"):
+		\begin{lstlisting}[caption=scp example directory, label=lst:scpExampleDirectory]
+			scp -P 6556 -r "/home/adiaz/Documents/minimax-risk-classifier/" adiaz@hpc.bcamath.org:/home/adiaz/
+		\end{lstlisting}
+		
+	\section{Appendix 2: Use CVX in Matlab}
+		If you need to use CVX in Matlab, Go to \url{http://cvxr.com/cvx/download/} and download CVX.\\
+		Put all your matlab files(main and functions) and the file HEM 60 twice.sl
+		in the folder cvx, that will be automatically created once you download CVX
+		from the website.\\
+		N.B.The main of the matlab file shoud start with the following command
+		cvx setup\\
+		Transfer all the files Matlab and the file HEM 60 twice.sl (or the entire
+		cvx folder with your matlab files and the file HEM 60 twice.sl) into the cluster,
+		using FileZilla by dragging and dropping the files from your Local site (left in
+		the FileZilla interface) to the Remote site (right in the FileZilla interface) in the folder named as your username.\\
+		Now that you have upload your files into the cluster, you are ready to run
+		them.\\
+\end{document}
