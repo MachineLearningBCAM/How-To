@@ -232,18 +232,17 @@
 		them.\\
 	\section{Appendix 3: Matlab licenses}
 	You use as many Matlab licenses (statistic toolbox) as nodes you are using in the cluster. However, you use only one license if you run several jobs on the same node. Hipatia allows you to choose and exclude nodes. You can choose a specific node by typing in the command line:
-
-\begin{lstlisting}[caption=Connection Hipatia, label=lst:connectionHipatia]
-sbatch -w node slurmfile.sl
-		\end{lstlisting}
-
+\begin{center}
+\begin{lstlisting}[caption=Choose a specific node, label=lst:choosenode]
+			sbatch -w node slurmfile.sl
+\end{lstlisting}
+\end{center}
 and can exclude nodes by typing 
-
-\begin{lstlisting}[caption=Connection Hipatia, label=lst:connectionHipatia]
-sbatch -x node1,node2 slurmfile.sl
-		\end{lstlisting}
-
+\begin{center}
+\begin{lstlisting}[caption=Exclude nodes, label=lst:excludenode]
+			sbatch -x node1,node2 slurmfile.sl
+\end{lstlisting}
+\end{center}
 In the case of excluding nodes, we write the sequence of nodes to which we do not want to send the job. The names of nodes are separated by commas without spaces. 
-
 Hipatia includes 18 nodes: n001, n002, ..., n018. If you choose a node that is complete, the job remains pending until it can be executed.
 \end{document}
