@@ -88,6 +88,8 @@
 			\item To see what modules are available to load $\Rightarrow$ module avail
 			\item To submit script for a later execution $\Rightarrow$ sbatch\\
 				Here we can set options such as the number of tasks, the maximum execution time, the partition we want to use, the number of nodes we want to use for this job, etc
+			\item To choose the node $\Rightarrow$ sbatch -w node\\
+			\item To exclude nodes $\Rightarrow$ sbatch -x node1,node2\\
 			\item To create job allocation and launch a job step, that is to run parallel jobs $\Rightarrow$ srun
 			\item As Slurm is finally Linux, let's not forget that we can use all the Bash commands like: ls, cat, rm, mkdir, etc
 		\end{itemize} 				
@@ -228,4 +230,20 @@
 		the FileZilla interface) to the Remote site (right in the FileZilla interface) in the folder named as your username.\\
 		Now that you have upload your files into the cluster, you are ready to run
 		them.\\
+	\section{Appendix 3: Matlab licenses}
+	You use as many Matlab licenses (statistic toolbox) as nodes you are using in the cluster. However, you use only one license if you run several jobs on the same node. Hipatia allows you to choose and exclude nodes. You can choose a specific node by typing in the command line:
+
+\begin{lstlisting}[caption=Connection Hipatia, label=lst:connectionHipatia]
+sbatch -w node slurmfile.sl
+		\end{lstlisting}
+
+and can exclude nodes by typing 
+
+\begin{lstlisting}[caption=Connection Hipatia, label=lst:connectionHipatia]
+sbatch -x node1,node2 slurmfile.sl
+		\end{lstlisting}
+
+In the case of excluding nodes, we write the sequence of nodes to which we do not want to send the job. The names of nodes are separated by commas without spaces. 
+
+Hipatia includes 18 nodes: n001, n002, ..., n018. If you choose a node that is complete, the job remains pending until it can be executed.
 \end{document}
