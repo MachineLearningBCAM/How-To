@@ -79,8 +79,9 @@
 	\section{Basic commands}
 		Here we can see several basic commands once we are connected:\\
 		\begin{itemize}
-			\item To see our pending jobs $\Rightarrow$ squ\\
+			\item To see our pending jobs $\Rightarrow$ squeue\\
 			\item To see information about jobs located in the Slurm scheduling queue of a specific user $\Rightarrow$ squeue -u $<$username$>$\\
+			\item To see information about jobs located in the Slurm scheduling queue of one or more specific nodes $\Rightarrow$ squeue -w node1,node2\\
 			\item To see why a job is in that state $\Rightarrow$ scontrol -d show job $<$JOBID$>$ $|$ grep Reason\\
 			\item To cancel the execution of a job $\Rightarrow$ scancel $<$jobid$>$\\
 			\item To cancel all jobs of a specific user $\Rightarrow$ scancel -u $<$username$>$\\
@@ -88,7 +89,7 @@
 			\item To see what modules are available to load $\Rightarrow$ module avail
 			\item To submit script for a later execution $\Rightarrow$ sbatch\\
 				Here we can set options such as the number of tasks, the maximum execution time, the partition we want to use, the number of nodes we want to use for this job, etc
-			\item To choose the node $\Rightarrow$ sbatch -w node\\
+			\item To choose the node or nodes $\Rightarrow$ sbatch -w node1,node2\\
 			\item To exclude nodes $\Rightarrow$ sbatch -x node1,node2\\
 			\item To create job allocation and launch a job step, that is to run parallel jobs $\Rightarrow$ srun
 			\item As Slurm is finally Linux, let's not forget that we can use all the Bash commands like: ls, cat, rm, mkdir, etc
