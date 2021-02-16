@@ -42,7 +42,7 @@ Partitions Hipatia
 
 Inside the cluster, we have the possibility of running our project in different partitions, to see what options we have, we execute the command \`\`sinfo". Here we see the following partitions
 
--   short \(\Rightarrow\) for jobs that may take up to 30 minutes at most
+-   short &rarr; for jobs that may take up to 30 minutes at most
 
 -   medium \(\Rightarrow\) for jobs that may take up to 6 hours at most
 
