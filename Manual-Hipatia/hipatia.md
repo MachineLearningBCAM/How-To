@@ -33,9 +33,9 @@ Personal directories - Hipatia
 
 We’ve available mainly two personal directories to work in them:
 
--   \`\`/home/\(<\)username\(>\)/" \(\Rightarrow\) We will usually work in this directory, so we’ll transfer the files/folders from local to here and then run the Slurm commands to run our application
+-   \`\`/home/\(<\)username\(>\)/" &rarr; We will usually work in this directory, so we’ll transfer the files/folders from local to here and then run the Slurm commands to run our application
 
--   \`\`/workspace/scratch/users/\(<\)username\(>\)/" \(\Rightarrow\) In case that we work with a folder structure with local references, it’s advisable to work directly here.
+-   \`\`/workspace/scratch/users/\(<\)username\(>\)/" &rarr; In case that we work with a folder structure with local references, it’s advisable to work directly here.
 
 Partitions Hipatia
 ------------------
@@ -44,43 +44,43 @@ Inside the cluster, we have the possibility of running our project in different 
 
 -   short &rarr; for jobs that may take up to 30 minutes at most
 
--   medium \(\Rightarrow\) for jobs that may take up to 6 hours at most
+-   medium &rarr; for jobs that may take up to 6 hours at most
 
--   large \(\Rightarrow\) for jobs that may take up to 5 days at most
+-   large &rarr; for jobs that may take up to 5 days at most
 
--   xlarge \(\Rightarrow\) for jobs that may take up to 30 days at most
+-   xlarge &rarr; for jobs that may take up to 30 days at most
 
--   extra \(\Rightarrow\) for jobs that may take up to 90 days at most
+-   extra &rarr; for jobs that may take up to 90 days at most
 
 Basic commands
 ==============
 
 Here we can see several basic commands once we are connected:
 
--   To see our pending jobs \(\Rightarrow\) squeue
+-   To see our pending jobs &rarr; squeue
 
--   To see information about jobs located in the Slurm scheduling queue of a specific user \(\Rightarrow\) squeue -u \(<\)username\(>\)
+-   To see information about jobs located in the Slurm scheduling queue of a specific user &rarr; squeue -u \(<\)username\(>\)
 
--   To see information about jobs located in the Slurm scheduling queue of one or more specific nodes \(\Rightarrow\) squeue -w node1,node2
+-   To see information about jobs located in the Slurm scheduling queue of one or more specific nodes &rarr; squeue -w node1,node2
 
--   To see why a job is in that state \(\Rightarrow\) scontrol -d show job \(<\)JOBID\(>\) \(|\) grep Reason
+-   To see why a job is in that state &rarr; scontrol -d show job \(<\)JOBID\(>\) \(|\) grep Reason
 
--   To cancel the execution of a job \(\Rightarrow\) scancel \(<\)jobid\(>\)
+-   To cancel the execution of a job &rarr; scancel \(<\)jobid\(>\)
 
--   To cancel all jobs of a specific user \(\Rightarrow\) scancel -u \(<\)username\(>\)
+-   To cancel all jobs of a specific user &rarr; scancel -u \(<\)username\(>\)
 
--   View information about Slurm nodes and partitions \(\Rightarrow\) sinfo
+-   View information about Slurm nodes and partitions &rarr; sinfo
 
--   To see what modules are available to load \(\Rightarrow\) module avail
+-   To see what modules are available to load &rarr; module avail
 
--   To submit script for a later execution \(\Rightarrow\) sbatch
+-   To submit script for a later execution &rarr; sbatch
     Here we can set options such as the number of tasks, the maximum execution time, the partition we want to use, the number of nodes we want to use for this job, etc
 
--   To choose the node or nodes \(\Rightarrow\) sbatch -w node1,node2
+-   To choose the node or nodes &rarr; sbatch -w node1,node2
 
--   To exclude nodes \(\Rightarrow\) sbatch -x node1,node2
+-   To exclude nodes &rarr; sbatch -x node1,node2
 
--   To create job allocation and launch a job step, that is to run parallel jobs \(\Rightarrow\) srun
+-   To create job allocation and launch a job step, that is to run parallel jobs &rarr; srun
 
 -   As Slurm is finally Linux, let’s not forget that we can use all the Bash commands like: ls, cat, rm, mkdir, etc
 
@@ -90,23 +90,23 @@ File \`\`.sl\`\`
 In order to simplify the commands that we write in the cluster to run our scripts, we create a file “.sl”.
 We recommend started with the configuration commands, for example we can see here:
 
--   –time \(\Rightarrow\) Set a limit on the total run time of the job allocation, once elapsed, it will stop
+-   –time &rarr; Set a limit on the total run time of the job allocation, once elapsed, it will stop
 
--   –output \(\Rightarrow\) File name to save the output. The default file name is “slurm-%j.out”, where the “%j” is replaced by the job ID.
+-   –output &rarr; File name to save the output. The default file name is “slurm-%j.out”, where the “%j” is replaced by the job ID.
 
--   –error \(\Rightarrow\) File name to save the errors. The default file name is “slurm-%j.out”, where the “%j” is replaced by the job ID.
+-   –error &rarr; File name to save the errors. The default file name is “slurm-%j.out”, where the “%j” is replaced by the job ID.
 
--   –ntasks \(\Rightarrow\) Request the maximum ntasks be invoked on each core.
+-   –ntasks &rarr; Request the maximum ntasks be invoked on each core.
 
--   –ntasks-per-node \(\Rightarrow\) Request that ntasks be invoked on each node. If used with the –ntasks option, the –ntasks option will take precedence and the –ntasks-per-node will be treated as a maximum count of tasks per node.
+-   –ntasks-per-node &rarr; Request that ntasks be invoked on each node. If used with the –ntasks option, the –ntasks option will take precedence and the –ntasks-per-node will be treated as a maximum count of tasks per node.
 
--   –cpus-per-task \(\Rightarrow\) Advise the Slurm controller how many processors will require per task, without this option, the default value is 1 per task.
+-   –cpus-per-task &rarr; Advise the Slurm controller how many processors will require per task, without this option, the default value is 1 per task.
 
--   –mem-per-cpu \(\Rightarrow\) Minimum memory required per allocated CPU. Default units are megabytes, but we can specified different units using the suffix [K|M|G|T]
+-   –mem-per-cpu &rarr; Minimum memory required per allocated CPU. Default units are megabytes, but we can specified different units using the suffix [K|M|G|T]
 
--   –partition \(\Rightarrow\) Request a specific partition for the execution of our program. If not specified, the default behavior is to allow the slurm controller to select the default partition as designated by the system administrator.
+-   –partition &rarr; Request a specific partition for the execution of our program. If not specified, the default behavior is to allow the slurm controller to select the default partition as designated by the system administrator.
 
--   –job-name \(\Rightarrow\) This is the name that will appear when we look at the work in progress
+-   –job-name &rarr; This is the name that will appear when we look at the work in progress
 
 We can see more options in <https://slurm.schedmd.com/sbatch.html>
 A real example of this section is:
