@@ -63,9 +63,9 @@ Here we can see several basic commands once we are connected:
 
 -   To see information about jobs located in the Slurm scheduling queue of one or more specific nodes &rarr; squeue -w node1,node2
 
--   To see why a job is in that state &rarr; scontrol -d show job \(<\)JOBID\(>\) \(|\) grep Reason
+-   To see why a job is in that state &rarr; scontrol -d show job <\JOBID\>\ \(|\) grep Reason
 
--   To cancel the execution of a job &rarr; scancel \(<\)jobid\(>\)
+-   To cancel the execution of a job &rarr; scancel <jobid>
 
 -   To cancel all jobs of a specific user &rarr; scancel -u \(<\)username\(>\)
 
