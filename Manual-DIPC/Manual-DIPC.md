@@ -1,4 +1,4 @@
-### Introduction
+# Introduction
 
 This is a basic guide on how to use the HPC systems hosted by the DIPC Supercomputing Center. There are two different hosted HPC systems that we can use: Atlas EDR and Altas FDR
 
@@ -148,10 +148,10 @@ Or directly
     
 You can list all the available packages with `conda list` and check the packages installed in an existing environment with `conda list -n <myenv_name>`. Some of the most used ones:
     
-    conda install scipy
-    conda install numpy
-    conda install -c conda-forge cvxpy
-    conda install -c intel scikit-learn
+    conda install -n <myenv_name> scipy
+    conda install -n <myenv_name> numpy
+    conda install -n <myenv_name> -c conda-forge cvxpy
+    conda install -n <myenv_name> -c intel scikit-learn
 
 Environments are saved in `/dipc/username/.conda/envs` and you can use them again in a new session. You can check the available conda environments with
 
@@ -171,7 +171,7 @@ Then you are activating this environment in your slurm file:
     conda activate <myenv_name>
     python <filename>.py
     
-
+You can find more info on conda environments in the [conda documentation](https://docs.conda.io/projects/conda/en/4.6.1/user-guide/tasks/manage-environments.html) and in the [DIPC manual](http://dipc.ehu.es/cc/computing_resources/programming/languages/python/python/#default-python-version).
 # Atlas FDR
 ## Job submission
 Atlas FDR is based on Torque.
