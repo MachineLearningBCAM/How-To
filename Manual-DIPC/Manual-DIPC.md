@@ -155,7 +155,7 @@ You can list all the available packages with `conda list` and check the packages
 
 Environments are saved in `/dipc/username/.conda/envs` and you can use them again in a new session. You can check the available conda environments with
 
-    condaenv list
+    conda env list
 Then you are activating this environment in your slurm file:
 
     #!/bin/bash
