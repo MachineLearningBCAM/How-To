@@ -18,8 +18,8 @@ You can also establish connection with access nodes manually:
 
 Once you are logged into an access node you can establish a connection with the login node of any of the HPC systems:
 
-    ssh atlas-fdr.sw.ehu.es 
-    ssh atlas-edr.sw.ehu.es
+    ssh atlas-fdr 
+    ssh atlas-edr
 You can also choose the login node you want to connect to.
 - Atlas-EDR has 2 login nodes (`atlas-edr-login-01.sw.ehu.es` and `atlas-edr-login-02.sw.ehu.es`). Each node has two sockets populated with a 48 core Intel Xeon Platinum 8260 each.
 Each node has 64 GB of RAM.
