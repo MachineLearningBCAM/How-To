@@ -65,7 +65,7 @@ Here we can see several basic commands once we are connected:
 
 -   To see why a job is in that state &rarr; scontrol -d show job \(<\)JOBID\(>\) \(|\) grep Reason
 
--   To cancel the execution of a job &rarr; scancel \(<\)jobid\(>\)
+-   To cancel the execution of a job &rarr; scancel \(<\)jobid\(>\). To cancel several consecutive jobs you can use; scancel {<first_jobid>..<last_jobid>}.
 
 -   To cancel all jobs of a specific user &rarr; scancel -u \(<\)username\(>\)
 
