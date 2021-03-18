@@ -17,7 +17,11 @@ We do not need to do anything different from when we download cvx.
 
 # Use Gurobi Solver
 
-To start using Gurobi solver, we need to open `/cvx/gurobi/maci64/grbgetkey`
+To start using Gurobi solver, we need to open `/cvx/gurobi/maci64/grbgetkey`. We will get the following message:
 
+    Enter the Key Code for the license you are activating
+    (format is xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx):
+
+Just paste the number of the licence.
 (under development)
 
