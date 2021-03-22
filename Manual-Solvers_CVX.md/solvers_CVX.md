@@ -1,6 +1,6 @@
 # Introduction
 
-This is the basic guide on how to install the Mosek and gurobi cvx solvers. For more information, go to [Gurobi](http://cvxr.com/cvx/doc/gurobi.html) or [Mosek](http://cvxr.com/cvx/doc/mosek.html).
+This is the basic guide on how to install the Mosek and Gurobi cvx solvers. For more information, go to [Gurobi](http://cvxr.com/cvx/doc/gurobi.html) or [Mosek](http://cvxr.com/cvx/doc/mosek.html).
 
 ## Gurobi
 
