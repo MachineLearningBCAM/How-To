@@ -267,7 +267,7 @@ In the case of excluding nodes, we write the sequence of nodes to which we do no
 Appendix 4: Use CVX in Python
 =============================
 
-_CVXPY_ module is already installed on Hipatia and can be loaded using any of the following modules - 
+_CVXPY_ module is already installed on Hipatia and can be loaded using any of the following modules- 
 
     SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
     SciPy-bundle/2019.10-intel-2019b-Python-3.7.4
