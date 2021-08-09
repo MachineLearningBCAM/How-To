@@ -267,7 +267,7 @@ In the case of excluding nodes, we write the sequence of nodes to which we do no
 Appendix 4: Use CVX in Python
 =============================
 
-_CVXPY_ module is already installed on Hipatia and can be loaded using any of the following modules- 
+_CVXPY_ module is already installed on Hipatia and can be loaded using any of the following modules - 
 
     SciPy-bundle/2019.10-foss-2019b-Python-3.7.4
     SciPy-bundle/2019.10-intel-2019b-Python-3.7.4
@@ -278,7 +278,7 @@ Using MOSEK solver with CVX
 ---------------------------
 The _MOSEK_ solver is available in the following module - 
 
-    Mosek/9.2.40-foss-2019-Python-3.7.4
+    Mosek/9.2.40-foss-2019b-Python-3.7.4
             
 
 To use the solver, you also need to have license. You can get a free academic license from [here](https://www.mosek.com/products/academic-licenses/). Once you obtain the license, you have to save the license file in the mosek (you have to create this folder) folder on Hipatia server. The location of this license file would be ``/home/your_user_name/mosek/mosek.lic``
