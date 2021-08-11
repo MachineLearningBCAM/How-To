@@ -130,7 +130,7 @@ On the other hand, you also have the possibility to use a **GPU Quadro RTX 8000*
 
     #SBATCH --gres=gpu:rtx8000:1
 
-#### Shared Partitions
+### Shared Partitions
 The available partitions on Atlas EDR shared with other organizations are:
 
 QoS/Partition |	Priority |	MaxWall |	MaxNodesPU |	MaxJobsPU |	MaxSubmitPU |	MaxJobs
