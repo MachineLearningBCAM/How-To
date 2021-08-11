@@ -103,7 +103,8 @@ New connection:
 Atlas EDR is based on Slurm, like BCAM's cluster Hipatia (You can see a wider description of this in [Hipatia's manual](https://github.com/MachineLearningBCAM/How-To/blob/main/Manual-Hipatia/hipatia.md) or directly in [DIPC Documentation](http://dipc.ehu.es/cc/computing_resources/systems/atlas-edr/)). There are some differences like the available partitions or how to load modules. To submit a job it is recommended to write a `.sl` file to to simplify the commands that we write in the cluster to run our scripts. Simple example:
 
     #!/bin/bash
-    #SBATCH --partition=regular
+    #SBATCH --partition=bcam-exclusive
+    #SBATCH --account=bcam-exclusive
     #SBATCH --job-name=JOB_NAME
     #SBATCH --cpus-per-task=1
     #SBATCH --mem=200gb
@@ -116,7 +117,21 @@ Atlas EDR is based on Slurm, like BCAM's cluster Hipatia (You can see a wider de
     srun binary < input 
 You can also use all the slurm commands: `squeue`, `scontrol`, `scancel`, `sinfo`, `sbatch`, `srun`... and all the Bash commands: `ls`, `cat`, `rm`, `mkdir`...
 ## Partitions
-The available partitions on Atlas EDR are:
+
+### BCAM Exclusive Partition
+There are now 21 new computing nodes that are available on DIPC cluster (called ATLAS). These new nodes are available only for BCAM researchers and not shared with other organizations like the rest of ATLAS computing nodes. You only have to add these lines in your script:
+
+    #SBATCH --partition=bcam-exclusive
+    #SBATCH --account=bcam-exclusive
+
+The bcam-exclusive partition has actually **no time-limit**.
+
+On the other hand, you also have the possibility to use a **GPU Quadro RTX 8000**. You only need to specify this line in your script:
+
+    #SBATCH --gres=gpu:rtx8000:1
+
+#### Shared Partitions
+The available partitions on Atlas EDR shared with other organizations are:
 
 QoS/Partition |	Priority |	MaxWall |	MaxNodesPU |	MaxJobsPU |	MaxSubmitPU |	MaxJobs
 -----------|---------|------|---------|--------|--------|-------
