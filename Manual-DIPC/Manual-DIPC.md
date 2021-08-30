@@ -118,7 +118,7 @@ Atlas EDR is based on Slurm, like BCAM's cluster Hipatia (You can see a wider de
 You can also use all the slurm commands: `squeue`, `scontrol`, `scancel`, `sinfo`, `sbatch`, `srun`... and all the Bash commands: `ls`, `cat`, `rm`, `mkdir`...
 ## Partitions
 
-### BCAM Exclusive Partition
+### BCAM Exclusive Partition - (To be reviewed)
 There are now 21 new computing nodes that are available on DIPC cluster (called ATLAS). These new nodes are available only for BCAM researchers and not shared with other organizations like the rest of ATLAS computing nodes. You only have to add these lines in your script:
 
     #SBATCH --partition=bcam-exclusive
