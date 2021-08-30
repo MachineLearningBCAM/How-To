@@ -118,7 +118,7 @@ Atlas EDR is based on Slurm, like BCAM's cluster Hipatia (You can see a wider de
 You can also use all the slurm commands: `squeue`, `scontrol`, `scancel`, `sinfo`, `sbatch`, `srun`... and all the Bash commands: `ls`, `cat`, `rm`, `mkdir`...
 ## Partitions
 
-### BCAM Exclusive Partition - (To be reviewed)
+### BCAM Exclusive Partition
 There are now 21 new computing nodes that are available on DIPC cluster (called ATLAS). These new nodes are available only for BCAM researchers and not shared with other organizations like the rest of ATLAS computing nodes. You only have to add these lines in your script:
 
     #SBATCH --partition=bcam-exclusive
@@ -129,6 +129,8 @@ The bcam-exclusive partition has actually **no time-limit**.
 On the other hand, you also have the possibility to use a **GPU Quadro RTX 8000**. You only need to specify this line in your script:
 
     #SBATCH --gres=gpu:rtx8000:1
+    
+Note: The total memory of each node in the bcam-exclusive partition is 96GB. Therefore the specification `--mem-per-cpu` cannot exceed this limit. If you need more memory, yoy can run your job in a shared DIPC node.
 
 ### Shared Partitions
 The available partitions on Atlas EDR shared with other organizations are:
