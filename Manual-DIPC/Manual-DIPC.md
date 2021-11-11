@@ -119,12 +119,16 @@ You can also use all the slurm commands: `squeue`, `scontrol`, `scancel`, `sinfo
 ## Partitions
 
 ### BCAM Exclusive Partition
-There are now 21 new computing nodes that are available on DIPC cluster (called ATLAS). These new nodes are available only for BCAM researchers and not shared with other organizations like the rest of ATLAS computing nodes. You only have to add these lines in your script:
+There are now **21 computing nodes** that are available on DIPC cluster (called ATLAS). These new nodes are available only for BCAM researchers and not shared with other organizations like the rest of ATLAS computing nodes. You only have to add these lines in your script:
 
     #SBATCH --partition=bcam-exclusive
     #SBATCH --account=bcam-exclusive
 
 The bcam-exclusive partition has actually **no time-limit**.
+
+You can check the jobs running and pending in the BCAM exclusive partititon using the option:
+
+    squeue -p bcam-exclusive
 
 On the other hand, you also have the possibility to use a **GPU Quadro RTX 8000**. You only need to specify this line in your script:
 
