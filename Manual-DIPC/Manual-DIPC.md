@@ -67,14 +67,16 @@ To move files from one folder to another:
 ## FileZilla
 
 ### General: Without EHU/UPVs VPN
-There are tho options to use FileZilla while not being connected to  EHU/VPN:
+<!-- There are tho options to use FileZilla while not being connected to  EHU/VPN:
 - Option 1. Connect FileZilla directly to the access computers and use your home directory (`/dipc/username`) to bring your data over the cluster. You home directory is also present on Atlas FDR's and EDR's logins nodes.
   - Protocol: SFTP - SSH
   - Host: `ac-01.sw.ehu.es` or `ac-02.sw.ehu.es`
   - Port: 2222
   - User: username
 
-- Option 2. Create a SSH tunnel via the access nodes to establish a direct connection with the login nodes. In this way you can only connect to one cluster at a time Atlas EDR or Atlas FDR. Perform the following steps:
+- Option 2. -->
+
+Create a SSH tunnel via the access nodes to establish a direct connection with the login nodes. In this way you can only connect to one cluster at a time Atlas EDR or Atlas FDR. Perform the following steps:
 
   1. Set up the tunnel from the command line and keep the connection alive
   
