@@ -42,9 +42,9 @@ As long as you are in the subnet using EHU/UPVs VPN, you also establish direct c
     
 
 # File system
-There is a home directory `/dipc/username` **shared** along the access nodes, Altas EDR and Atlas FDR (it runs on top of a Ceph parallel filesystem). It is intended for permanent file storage. Your shell refers to it as “∼” (tilde), and its absolute path is also stored in the environment variable $HOME. Daily backups of these directories are performed and backups are saved up to 2 months old.
+There is a home directory `/dipc/username` **shared** along the access nodes, Altas EDR and Atlas FDR (it runs on top of a Ceph parallel filesystem). It is intended for permanent file storage, ***not* for running your scripts**. Your shell refers to it as “∼” (tilde), and its absolute path is also stored in the environment variable $HOME. Daily backups of these directories are performed and backups are saved up to 2 months old.
 
-The directory meant to be used as the work space for jobs is `/scratch/username`. It is **not shared**: each HPC system has its own `/scratch` directory. It is a shared high performance storage that system provides access to large amounts of disk for short periods of time at much higher speed than `/dipc`.
+The **directory meant to be used as the work space** for jobs is `/scratch/username`. It is **not shared**: each HPC system has its own `/scratch` directory. It is a shared high performance storage that system provides access to large amounts of disk for short periods of time at much higher speed than `/dipc`.
 
 Remember that `/scratch` filesystems are not meant to be used as a permanent storage solution.
 
