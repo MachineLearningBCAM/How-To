@@ -293,3 +293,24 @@ The _MOSEK_ solver is available in the following module -
             
 
 To use the solver, you also need to have license. You can get a free academic license from [here](https://www.mosek.com/products/academic-licenses/). Once you obtain the license, you have to save the license file in the mosek (you have to create this folder) folder on Hipatia server. The location of this license file would be ``/home/your_user_name/mosek/mosek.lic``
+
+Appendix 5: Use MRCpy or any other package in Python
+=============================
+
+To install packages not available in the cluster firs it is necessary to open the terminal of the cluster and load the python module -
+
+    module load Python/3.7.4-GCCcore-8.3.0
+    
+Once loaded just install any package with pip in your user folder of the cluster with the command - 
+
+    pip install -user <name_package>
+    
+Install packages not in PyPI
+---------------------------
+To install packages not in the Python Package Index repository it is necessary to upload the package folder to the cluster via SFTP or dragging files if you are using an application such as FileZilla or MobaXterm. Then just go to the folder and install the package following the developers instructions. For the Minimax Risk Classifier package -
+
+    module load Python/3.7.4-GCCcore-8.3.0
+    cd <MRCpy folder in the cluster>
+    python setup.py install --user
+    
+_Note: Make sure to have all dependencies installed to avoid posible installation errors._ 
