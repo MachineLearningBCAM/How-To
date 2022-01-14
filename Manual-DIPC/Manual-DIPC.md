@@ -6,7 +6,11 @@ This is a basic guide on how to use the HPC systems hosted by the DIPC Supercomp
 
 - **Atlas FDR**:	Based on TORQUE. A cluster type HPC system running a total of 210 nodes and features a total of 6100 computing cores and 80 TB of distributed RAM memory. The network technology interconnection the nodes is a FDR Infiniband at 56 Gbps with a fat-tree topology with a 5:1 blocking factor.
 
-# Login
+# Login (Under maintenance)
+***TEMPORARY REMOVAL OF AC-01 AND AC-02 ACCESS NODES AND UNMOUNTING OF /DIPC ON ATLAS-EDR COMPUTING NODES***
+
+***WHILE AC-01 AND AC-02 ACCESS NODES ARE REMOVED LOG IN FOLLOWING THE NEXT SUBSECTION: "Login while connected to EHU/UPVs VPN", WHETHER YOU ARE CONNECTED TO EHU/UPVs VPN OR NOT.***
+
 Prior connecting to Atlas EDR or Atlas FDR you need to establish connection with the access nodes first. In order to do that, a SSH client is necessary. Please, refer to [SSH](http://dipc.ehu.es/cc/computing_resources/general/connect/ssh/) for more information.
 
     ssh user@ac.sw.ehu.es
@@ -65,6 +69,10 @@ To move files from one folder to another:
     cp source_file destiny_file
 
 ## FileZilla
+
+***TEMPORARY REMOVAL OF AC-01 AND AC-02 ACCESS NODES AND UNMOUNTING OF /DIPC ON ATLAS-EDR COMPUTING NODES***
+
+***WHILE AC-01 AND AC-02 ACCESS NODES ARE REMOVED CONFIGURE FILEZILLA FOLLOWING THE SUBSECTION: "With EHU/UPVs VPN", WHETHER YOU ARE CONNECTED TO EHU/UPVs VPN OR NOT.***
 
 ### General: Without EHU/UPVs VPN
 <!-- There are tho options to use FileZilla while not being connected to  EHU/VPN:
