@@ -216,12 +216,8 @@ An example of file “.sl” for Matlab:
         
 
 Once you have this .sl in your corresponding Hipatia folder (in which you also have the "matlab\_parfor.m" file), you must write the following command on terminal:
-		\begin{lstlisting}[caption=scp command, label=lst:scpCommand]
 			sbatch example.sl
-		\end{lstlisting}
-		where I am assuming you called 'example.sl' the .sl file from above.
-		\\
-		REMARK: In order to save the text file from above as a .sl, I recommend to use a text editor from the terminal (such as 'vim').
+where I am assuming you called 'example.sl' the .sl file from above (REMARK: In order to save the text file from above as a .sl, I recommend to use a text editor from the terminal -such as 'vim'-).
 
 Appendix 1: Copying working structure
 =====================================
