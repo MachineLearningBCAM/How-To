@@ -102,7 +102,7 @@ We recommend started with the configuration commands, for example we can see her
 
 -   –cpus-per-task &rarr; Advise the Slurm controller how many processors will require per task, without this option, the default value is 1 per task.
 
--   –mem-per-cpu &rarr; Minimum memory required per allocated CPU. Default units are megabytes, but we can specified different units using the suffix [K|M|G|T]
+-   –mem-per-cpu &rarr; Minimum memory required per allocated CPU. Default units are megabytes, but we can specified different units using the suffix [K|M|G|T]. It's important to specify a sufficient amount of memory. Otherwise, you could obtain OOM (out of memory) errors from Hipatia.
 
 -   –partition &rarr; Request a specific partition for the execution of our program. If not specified, the default behavior is to allow the slurm controller to select the default partition as designated by the system administrator.
 
@@ -215,7 +215,13 @@ An example of file “.sl” for Matlab:
         ## option -noFigureWindows allows to create and save figures without opening figure
         
 
-This will run the script “matlab\_parfor.m”.
+Once you have this .sl in your corresponding Hipatia folder (in which you also have the "matlab\_parfor.m" file), you must write the following command on terminal:
+		\begin{lstlisting}[caption=scp command, label=lst:scpCommand]
+			sbatch example.sl
+		\end{lstlisting}
+		where I am assuming you called 'example.sl' the .sl file from above.
+		\\
+		REMARK: In order to save the text file from above as a .sl, I recommend to use a text editor from the terminal (such as 'vim').
 
 Appendix 1: Copying working structure
 =====================================
