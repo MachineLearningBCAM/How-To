@@ -255,7 +255,7 @@ N.B. If you want to use commercial solvers such as MOSEK or GUROBI make sure to 
 * MOSEK: Download licence as explained in [CVX solvers tutorial](https://github.com/MachineLearningBCAM/How-To/blob/main/Manual-Solvers_CVX/solvers_CVX.md). Create a folder called mosek in the directory `/home/<your_username>` in hipatia and upload the licence file `mosek.lic` to this folder.
 * GUROBI: Just follow the steps to activate the licence explained in [CVX solvers tutorial](https://github.com/MachineLearningBCAM/How-To/blob/main/Manual-Solvers_CVX/solvers_CVX.md) **before** uploading the CVX folder to hipatia. 
 
-Put all your matlab files (main and functions) and the file HEM 60 twice.sl in the folder CVX, that will be automatically created once you download CVX from the website. Instead you can have your files in whatever directory in your cluster outside the CVX folder and just add the path of the folder with
+Put all your matlab files (main and functions) and the file .sl in the folder CVX, that will be automatically created once you download CVX from the website. Instead you can have your files in whatever directory in your cluster outside the CVX folder and just add the path of the folder with
 
     addpath("relative CVX path")
 
@@ -263,7 +263,7 @@ N.B. The main of the matlab file shoud start with the following command
 
     cvx setup
 
-Transfer all the files Matlab and the file HEM 60 twice.sl (you can just upload the whole CVX folder as well) into the cluster, using FileZilla by dragging and dropping the files from your Local site (left in the FileZilla interface) to the Remote site (right in the FileZilla interface) in the folder named as your username.
+Transfer all the files Matlab and the file .sl (you can just upload the whole CVX folder as well) into the cluster, using FileZilla by dragging and dropping the files from your Local site (left in the FileZilla interface) to the Remote site (right in the FileZilla interface) in the folder named as your username.
 Now that you have upload your files into the cluster, you are ready to run them.
 
 Appendix 3: Matlab licenses
