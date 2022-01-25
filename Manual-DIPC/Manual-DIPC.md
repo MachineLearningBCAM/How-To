@@ -1,5 +1,7 @@
 # Introduction
 
+***IMPORTANT NOTE: DUE TO TEMPORARY REMOVAL OF AC-01 AND AC-02 ACCESS NODES AND UNMOUNTING OF /DIPC ON ATLAS-EDR COMPUTING NODES, SOME ASPECTS SUCH AS LOGIN, CONNECTING TO FILEZILLA AND LOADING CONDA ENVIRONMENTS HAVE SLIGHTLY CHANGE. PLEASE READ THE BOLD COMMENTS IN THIS HOW-TO FOR FURTHER INFORMATION.***
+
 This is a basic guide on how to use the HPC systems hosted by the DIPC Supercomputing Center. There are two different hosted HPC systems that we can use: Atlas EDR and Altas FDR
 
 - **Atlas EDR**:	Based on SLURM. HPC system running a total of 45 nodes and features a total of 2224 cores and 15 TB of distributed memory. Some of the nodes are powered with either one or two NVIDIA Tesla P40 GPGPUS. The network technlogy interconnection the nodes is a fat-tree topology EDR Infiniband at 100 Gbps with a 5:1 blocking factor.
@@ -72,7 +74,7 @@ To move files from one folder to another:
 
 ***TEMPORARY REMOVAL OF AC-01 AND AC-02 ACCESS NODES AND UNMOUNTING OF /DIPC ON ATLAS-EDR COMPUTING NODES***
 
-***WHILE AC-01 AND AC-02 ACCESS NODES ARE REMOVED TRANSFER FILES BY COMMAND LINE.***
+***WHILE AC-01 AND AC-02 ACCESS NODES ARE REMOVED LOG IN FOLLOWING THE NEXT SUBSECTION: "With EHU/UPVs VPN", WHETHER YOU ARE CONNECTED TO EHU/UPVs VPN OR NOT.***
 
 ### General: Without EHU/UPVs VPN
 <!-- There are tho options to use FileZilla while not being connected to  EHU/VPN:
@@ -94,7 +96,7 @@ Create a SSH tunnel via the access nodes to establish a direct connection with t
   2. Open FileZilla and set it up as follows:
     - Protocol: SFTP - SSH
     - Host: localhost
-    - Port: 2222
+    - Port: 22
     - User: username
   If you want to change connections between clusters, terminate the tunnel with `exit`, close the connection in FileZilla and repeat the process.
   
@@ -105,7 +107,7 @@ New connection:
 - Host: 
   - For Atlas EDR: `atlas-edr-login-01.sw.ehu.es` or `atlas-edr-login-02.sw.ehu.es` 
   - For Atlas FDR: `atlas-fdr-login-01.sw.ehu.es` or `atlas-fdr-login-02.sw.ehu.es` 
-- Port: 2222
+- Port: 22
 - User: username
 
 # Atlas EDR
@@ -168,6 +170,18 @@ For example to load Python, we should write the following line to the `.sl`.
 
     module load Python/3.7.6-Anaconda3-2020.02
 ### Loading Python modules
+
+***TEMPORARY REMOVAL OF AC-01 AND AC-02 ACCESS NODES AND UNMOUNTING OF /DIPC ON ATLAS-EDR COMPUTING NODES***
+
+***Additionally of the removal of the AC nodes, DIPC haS also unmounted the /dipc filesystem from all EDR computing nodes in order to minimize the accesses to it, since with the recent growth of users we were starting to have problems with it. So now, for a computing node to have access to your environment [you should move it to your /scratch folder](http://dipc.ehu.es/cc/computing_resources/programming/languages/python/python/#creating-an-environment-in-a-custom-location). If you don want to create a new environment from scratch, you can just clone your current environment:***
+
+    conda create --prefix /scratch/cguerrero/conda-envs/<environment_name> --clone <my_original_environment_name>
+    
+***And then just call this environment on the .sl file:***
+
+    conda activate /scratch/cguerrero/conda-envs/<environment_name>
+
+
 Once you have loaded Python, we need to use the `conda` command to load the modules you want to import in your Python script.
 From console you are creating a conda environment in which you are going to load the desired Python modules: 
 
