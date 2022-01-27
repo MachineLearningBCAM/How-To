@@ -247,7 +247,7 @@ An example of copy a directory recursively (just add argument “-r”):
 Appendix 2: Use CVX in Matlab
 =============================
 
-If you need to use CVX in Matlab, Go to <http://cvxr.com/cvx/download/> and download CVX. **Important: Download version for linux since it is the OS of hipatia.**
+If you need to use CVX in Matlab, Go to <http://cvxr.com/cvx/download/> and download CVX (Linux Version). **Important: Download version for linux since it is the OS of hipatia.**
 
 N.B. If you want to use commercial solvers such as MOSEK or GUROBI make sure to download a package that contains those solvers and download the needed licences.
 * MOSEK: Download licence as explained in [CVX solvers tutorial](https://github.com/MachineLearningBCAM/How-To/blob/main/Manual-Solvers_CVX/solvers_CVX.md). Create a folder called mosek in the directory `/home/<your_username>` in hipatia and upload the licence file `mosek.lic` to this folder.
