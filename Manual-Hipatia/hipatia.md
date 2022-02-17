@@ -1,7 +1,7 @@
 Introduction
 ============
 
-Hipatia is the cluster name we have given it, but it is based in Slurm, some websites that may interest us with information about Slurm are:
+Hipatia is the name of BCAM cluster. It is based in Slurm, you can find more information about Slurm in the following links:
 
 -   <https://slurm.schedmd.com/overview.html>
 
@@ -23,7 +23,9 @@ or directly by IP:
     ssh <username>@150.241.212.41 -p6556
         
 
-After this, we’re connected in our personal directory, \`\`/home/\(<\)username\(>\)".
+After this, we’re connected in our personal directory, `/home/<username>`.
+
+
 
 Internal structure - Hipatia
 ============================
@@ -33,80 +35,107 @@ Personal directories - Hipatia
 
 We’ve available mainly two personal directories to work in them:
 
--   \`\`/home/\(<\)username\(>\)/" &rarr; We will usually work in this directory, so we’ll transfer the files/folders from local to here and then run the Slurm commands to run our application
+-   `/home/<username>/` &rarr; We will usually work in this directory, so we’ll transfer the files/folders from local to here and then run the Slurm commands to run our application
 
--   \`\`/workspace/scratch/users/\(<\)username\(>\)/" &rarr; In case that we work with a folder structure with local references, it’s advisable to work directly here.
+-   `/workspace/scratch/users/<username>/`&rarr; In case that we work with a folder structure with local references, it’s advisable to work directly here.
 
-Partitions Hipatia
-------------------
+Time Restrictions: Partitions
+-----------------------------
 
-Inside the cluster, we have the possibility of running our project in different partitions, to see what options we have, we execute the command \`\`sinfo". Here we see the following partitions
+Inside the cluster, we have the possibility of running our project in different partitions, to see what options we have, we execute the command `sinfo`. Here we see the following partitions
 
--   short &rarr; for jobs that may take up to 30 minutes at most
+| Partition | Max Time Limit |
+| :--: | :--: | 
+| short | 30 minutes |
+| medium | 6 hours |
+| large | 5 days |
+| xlarge| 30 days |
+| extra | 90 days |
 
--   medium &rarr; for jobs that may take up to 6 hours at most
+Memory Restrictions
+-------------------
 
--   large &rarr; for jobs that may take up to 5 days at most
+### Memory Restrictions in Hipatia
 
--   xlarge &rarr; for jobs that may take up to 30 days at most
+There is a **default** global memory limit of **4700MB** per cpu. Users can modify this limit by using the `--mem=` or `--mem-per-cpu=` parameters within their jobs, if necessary.
 
--   extra &rarr; for jobs that may take up to 90 days at most
+- **MAXIMUM MEMORY SPECIFICATION** &rarr; **377GB**
+
+
+#### Explanation
+
+The memory limit is the limit of the node with the most memory installed. Once an amount of memory is requested, SLURM will already know which nodes are candidates to run the job and will not allocate it to a node that does not meet the conditions. Unless we specify a list of nodes or a specific architecture whose nodes with maximum memory is less than the memory installed on the node with the most memory in the entire cluster, in which case SLURM would tell us that there is no possibility of launching jobs in that configuration.
+
+### Basic Slurm Terms: Node, Core, CPU and Threading
+
+
+- A (compute) **node** is a computer part of a larger set of nodes (a cluster). Besides compute nodes, a cluster comprises one or more login nodes, file server nodes, management nodes, etc. A compute node offers resources such as processors, volatile memory (RAM), permanent disk space (e.g. SSD), accelerators (e.g. GPU) etc.
+- A **core** is the part of a processor that does the computations. A processor comprises multiple cores, as well as a memory controller, a bus controller, and possibly many other components. A processor in the Slurm context is referred to as a socket, which actually is the name of the slot on the motherboard that hosts the processor.
+- A **CPU** in a general context refers to a processor, but in the Slurm context, a CPU is a consumable resource offered by a node. It can refer to a socket, a core, or a hardware thread, based on the Slurm configuration.
+
+The role of Slurm is to match those resources to **jobs**. A job comprises one or more (sequential) **steps**, and each step has one or more (parallel) **tasks**. A task is an instance of a running program, i.e. at a process, possibly along with subprocesses or software threads.
+
+- `--ntasks=N` &rarr; Reserves N cores to allocate 1 process on each of them (`N` = number of precesses).
+- `--ntasks-per-node=N` &rarr; Makes a per-node task reservation to reserve a homogeneous number of cores per node, and assign each of those cores to a process  (`N` = number of precesses).
+- `--cpus-per-task=N` &rarr; Refers to the number of threads that que aplication is going to need for each created procces  (`N` = number of threads).
+
+**Difference between allocating memory with `--ntasks` and `--cpus-per-task`:** when using `srun`, it takes by default the number of tasks defined in `--ntasks` to create the processes.
+
+
+[Source](https://stackoverflow.com/questions/65603381/slurm-nodes-tasks-cores-and-cpus)
 
 Basic commands
 ==============
 
 Here we can see several basic commands once we are connected:
 
--   To see our pending jobs &rarr; squeue
+-   `squeue` &rarr; Shows pending jobs.
 
--   To see information about jobs located in the Slurm scheduling queue of a specific user &rarr; squeue -u \(<\)username\(>\)
+	-   `squeue -u <username>` &rarr; Shows information about jobs located in the Slurm scheduling queue of a specific user.
 
--   To see information about jobs located in the Slurm scheduling queue of one or more specific nodes &rarr; squeue -w node1,node2
+	-   `squeue -w node1,node2` &rarr; Shows information about jobs located in the Slurm scheduling queue of one or more specific nodes.
 
--   To see why a job is in that state &rarr; scontrol -d show job \(<\)JOBID\(>\) \(|\) grep Reason
+	-   `scontrol -d show job <JOBID> | grep Reason`  &rarr; Shows why a job is in that state.
 
--   To cancel the execution of a job &rarr; scancel \(<\)jobid\(>\). To cancel several consecutive jobs you can use; scancel {<first_jobid>..<last_jobid>}.
+-   scancel <jobid> &rarr; Cancels the execution of a job.
+	-  	`scancel {<first_jobid>..<last_jobid>}` &rarr; Cancels several consecutive jobs you can use.
+	-   `scancel -u <username>` &rarr; To cancel all jobs of a specific user 
 
--   To cancel all jobs of a specific user &rarr; scancel -u \(<\)username\(>\)
+-   `sinfo` &rarr; View information about Slurm nodes and partitions.
 
--   View information about Slurm nodes and partitions &rarr; sinfo
+-   `module avail` &rarr; Shows what modules are available to load.
 
--   To see what modules are available to load &rarr; module avail
+-   `sbatch` &rarr; Submits script for a later execution. You can set options such as the number of tasks, the maximum execution time, the partition we want to use, the number of nodes we want to use for this job, etc
+	-   `sbatch -w node1,node2` &rarr; Chooses the node or nodes. (Not needed)
+	-  `sbatch -x node1,node2` &rarr; To exclude nodes. (Not needed)
 
--   To submit script for a later execution &rarr; sbatch
-    Here we can set options such as the number of tasks, the maximum execution time, the partition we want to use, the number of nodes we want to use for this job, etc
+-   `srun` &rarr;  To create job allocation and launch a job step, that is to run parallel jobs.
 
--   To choose the node or nodes &rarr; sbatch -w node1,node2
+-   Slurm is based on Linux, let’s not forget that we can use all the Bash commands like: `ls`, `cat`, `rm`, `mkdir`, etc
 
--   To exclude nodes &rarr; sbatch -x node1,node2
-
--   To create job allocation and launch a job step, that is to run parallel jobs &rarr; srun
-
--   As Slurm is finally Linux, let’s not forget that we can use all the Bash commands like: ls, cat, rm, mkdir, etc
-
-File \`\`.sl\`\`
+File `.sl`
 ================
 
 In order to simplify the commands that we write in the cluster to run our scripts, we create a file “.sl”.
 We recommend started with the configuration commands, for example we can see here:
 
--   –time &rarr; Set a limit on the total run time of the job allocation, once elapsed, it will stop
+-   `–time` &rarr; Set a limit on the total run time of the job allocation, once elapsed, it will stop
 
--   –output &rarr; File name to save the output. The default file name is “slurm-%j.out”, where the “%j” is replaced by the job ID.
+-   `–output` &rarr; File name to save the output. The default file name is “slurm-%j.out”, where the “%j” is replaced by the job ID.
 
--   –error &rarr; File name to save the errors. The default file name is “slurm-%j.out”, where the “%j” is replaced by the job ID.
+-   `–error` &rarr; File name to save the errors. The default file name is “slurm-%j.out”, where the “%j” is replaced by the job ID.
 
--   –ntasks &rarr; Request the maximum ntasks be invoked on each core.
+-   `–ntasks` &rarr; Request the maximum ntasks be invoked on each core.
 
--   –ntasks-per-node &rarr; Request that ntasks be invoked on each node. If used with the –ntasks option, the –ntasks option will take precedence and the –ntasks-per-node will be treated as a maximum count of tasks per node.
+-   `–ntasks-per-node` &rarr; Request that ntasks be invoked on each node. If used with the `–ntasks` option, the `–ntasks` option will take precedence and the `–ntasks-per-node` will be treated as a maximum count of tasks per node.
 
--   –cpus-per-task &rarr; Advise the Slurm controller how many processors will require per task, without this option, the default value is 1 per task.
+-   `–cpus-per-task` &rarr; Advise the Slurm controller how many processors will require per task, without this option, the default value is 1 per task.
 
--   –mem-per-cpu &rarr; Minimum memory required per allocated CPU. Default units are megabytes, but we can specified different units using the suffix [K|M|G|T]. It's important to specify a sufficient amount of memory. Otherwise, you could obtain OOM (out of memory) errors from Hipatia.
+-   `–mem-per-cpu` &rarr; Minimum memory required per allocated CPU. Default units are megabytes, but we can specified different units using the suffix [K|M|G|T]. It's important to specify a sufficient amount of memory. Otherwise, you could obtain OOM (out of memory) errors from Hipatia.
 
--   –partition &rarr; Request a specific partition for the execution of our program. If not specified, the default behavior is to allow the slurm controller to select the default partition as designated by the system administrator.
+-   `–partition` &rarr; Request a specific partition for the execution of our program. If not specified, the default behavior is to allow the slurm controller to select the default partition as designated by the system administrator.
 
--   –job-name &rarr; This is the name that will appear when we look at the work in progress
+-   `–job-name` &rarr; This is the name that will appear when we look at the work in progress
 
 We can see more options in <https://slurm.schedmd.com/sbatch.html>
 A real example of this section is:
@@ -130,7 +159,7 @@ Here we can see an example to load Python 3.7:
 
 Here we can see an example to load Matlab:
 
-    module load MATLABj
+    module load MATLAB
         
 
 Finally, we will write the command to run the script/scripts we want. An example could be:
@@ -146,6 +175,7 @@ If you’re going to run a Matlab script, here an example:
 This is enough to generate our “sl” file, but there is a lot of flexibility and we can develop it as complex as we want.
 Beyond all the available configuration commands, we can perform file manipulation, run several scripts in a sequential way... there are no limits.
 PS: Try to be careful with the resources requested to be in solidarity with the colleagues.
+
 
 Examples
 ========
@@ -195,10 +225,10 @@ When our job is finished, we will see the errors file, “1170397\_err.txt” an
 In our example, we have said that it will generate the output and error files starting with the ID that Hipatia have assigned to the execution of the script, so that we can difference easily the different executions.
 We can read the output file, for example with command “cat”, like “cat 1159037\_err.txt” and “cat 1159037\_out.txt”.
 
- Example file \`\`.sl\` Matlab
+ Example file `.sl` Matlab
 ------------------------------
 
-An example of file “.sl” for Matlab:
+An example of file `.sl` for Matlab:
 
     #!/bin/bash
         #SBATCH --time=6:00:00     # Walltime 
