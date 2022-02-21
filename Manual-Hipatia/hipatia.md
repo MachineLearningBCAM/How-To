@@ -1,18 +1,11 @@
-Introduction
-============
-
-Hipatia is the name of BCAM cluster. It is based in Slurm, you can find more information about Slurm in the following links:
-
--   <https://slurm.schedmd.com/overview.html>
-
--   <https://support.ceci-hpc.be/doc/_contents/QuickStart/SubmittingJobs/SlurmTutorial.html>
-
-This cluster is developed under a Debian distribution and you need to have an account in order to login to the server, if in the following steps you get a login error, ask IT to create an account.
-
-Connection
+The Basics
 ==========
+Hipatia is the name of BCAM cluster. It is based in Slurm, which is a job scheduler. In this section we will show the basics for launching your script.
 
-To connect to the server by using SSH on Linux and MAC, we’ve two options.
+1 - Connection
+-------------
+
+To connect to the server by using SSH on Linux and MAC, we’ve two options. You need your BCAM username and password.
 By name:
 
     ssh -p 6556 <username>@hpc.bcamath.org
@@ -20,29 +13,60 @@ By name:
 
 or directly by IP:
 
-    ssh <username>@150.241.212.41 -p6556
+    ssh <username>@150.241.212.41 -p 6556
         
 
 After this, we’re connected in our personal directory, `/home/<username>`.
 
-
-
-Internal structure - Hipatia
-============================
-
-Personal directories - Hipatia
-------------------------------
+2 - Personal directories in Hipatia
+----------------------------------
 
 We’ve available mainly two personal directories to work in them:
 
--   `/home/<username>/` &rarr; We will usually work in this directory, so we’ll transfer the files/folders from local to here and then run the Slurm commands to run our application
++ `/home/<username>`
++ `/workspace/scratch/users/<username>` &rarr; Use when working with a folder structure with local references.
 
--   `/workspace/scratch/users/<username>/`&rarr; In case that we work with a folder structure with local references, it’s advisable to work directly here.
 
-Time Restrictions: Partitions
------------------------------
 
-Inside the cluster, we have the possibility of running our project in different partitions, to see what options we have, we execute the command `sinfo`. Here we see the following partitions
+3 - File `.sl`
+-------------
+
+In order to simplify the commands that we write in the cluster to run our scripts, we create a file ".sl".
+This file needs to indicate the following mandatory specifications:
+
+	#!/bin/bash
+	#SBATCH --time=6:00:00
+	#SBATCH --partition=medium
+	
+The first line indicates the path to the interpreter, it is just a standard of a bash script, you do not need to change anything.
+The second line specifies the maximum time your program can be running and the third specifies the partition in which you want to execute your program. Let's see more about time and partitions restrictions.
+
+Then, we need to load the modules out script needs. (We can see the different modules available with command `module avail`).
+
+To load Python 3.7 add the following line to your `.sl` file:
+
+    module load Python/3.7.4-GCCcore-8.3.0j
+        
+
+To load Matlab add the following line to your `.sl` file:
+
+    module load MATLAB
+        
+
+Finally, we will write the command to run the script/scripts we want. To run a Python file called `helloWorld.py` add the following line to your `.sl` file:
+
+    srun python helloWorld.py
+        
+
+To run a Matlab file called `helloWorld.m` add the following line to your `.sl` file:
+
+    srun matlab -nodisplay -r "helloWorld, exit"
+
+4 - Time Restrictions: Partitions
+--------------------------------
+
+Inside the cluster, we have the possibility of running our project in different partitions, organizing the jobs according to their maximum duration.
+The available partitions are the following:
 
 | Partition | Max Time Limit |
 | :--: | :--: | 
@@ -51,6 +75,61 @@ Inside the cluster, we have the possibility of running our project in different 
 | large | 5 days |
 | xlarge| 30 days |
 | extra | 90 days |
+
+Time is formated `days-hours:minutes:seconds`. For example `--time=1-00:00:00` means a time limit of a day.
+
+5 - File transfer
+----------------
+
+To upload your files (scripts and sl file) you can do it by terminal or using the application FileZilla Client, which provides a user friendly interface. We recommend the later.
+
+1. Install FilleZilla [here](https://filezilla-project.org/download.php).
+2. Open Site Manager in upper-left corner or (⌘+s).
+3. Add new site with the following settings:
+	+ Protocol: SFTP - SSH File Transfer Protocol
+	+ Host: hpc.bcamath.org
+	+ Port: 6556
+	+ Logon type: Normal
+	+ User: `<username>`
+	+ Password: `<password>`
+4. Click on connect
+5. Now you will have two file browsers open, one for your local machine and other for hipatia cluster. Just drag files from one to the other or double click a file to upload/download a file.
+
+
+6 - Batch your job
+-----------------
+Now that you have your files in the cluster and you are have connected using SSH (step 1), you are ready to launch your job.
+
+-   `sbatch <filename>.sl` &rarr; Submits script for execution. You can set options if needed.
+
+When you submit your job it is assigned a job id number that will be shown on terminal as follows (example):
+
+	Submitted batch job 2470660
+	
+The output and error logs generated by your job will be in the files `slurm-<job_id>.out` and `slurm-<job_id>.err` respectively, which will be created in the same path as your `.sl` in the cluster.
+
+Once you launch your job, it remains pending until there are available resources to run it. You can check the state of your job using. The default name given to your job is the name of the `.sl` file you submitted it with.
+
+-   `squeue` &rarr; Shows all jobs (pending and running) of all users in cluster.
+	-   `squeue -u <username>` &rarr; Shows all jobs (pending and running) of given user in cluster.
+
+You can cancel your jobs anytime using:
+
+-   `scancel <jobid>` &rarr; Cancels the execution of a job.
+	-  	`scancel {<first_jobid>..<last_jobid>}` &rarr; Cancels several consecutive jobs you can use.
+	-   `scancel -u <username>` &rarr; To cancel all jobs of a specific user (you only can delete yours, trying to delete other user jobs will not have any effect).
+
+Slurm is based on Linux, that means you can use all the Bash commands like: `ls`, `cat`, `rm`, `mkdir`, etc
+
+
+Further functionalities and Information
+=======================================
+
+You can find more information about Slurm on [Slurm main page](https://slurm.schedmd.com/overview.html) and on this [tutorial](https://support.ceci-hpc.be/doc/_contents/QuickStart/SubmittingJobs/SlurmTutorial.html).
+
+This cluster is developed under a Debian distribution and you need to have an account in order to login to the server, if in the following steps you get a login error, ask IT to create an account.
+
+
 
 Memory Restrictions
 -------------------
@@ -84,10 +163,8 @@ The role of Slurm is to match those resources to **jobs**. A job comprises one o
 
 [Source](https://stackoverflow.com/questions/65603381/slurm-nodes-tasks-cores-and-cpus)
 
-Basic commands
-==============
-
-Here we can see several basic commands once we are connected:
+More Slurm commands
+------------------
 
 -   `squeue` &rarr; Shows pending jobs.
 
@@ -97,24 +174,17 @@ Here we can see several basic commands once we are connected:
 
 	-   `scontrol -d show job <JOBID> | grep Reason`  &rarr; Shows why a job is in that state.
 
--   scancel <jobid> &rarr; Cancels the execution of a job.
-	-  	`scancel {<first_jobid>..<last_jobid>}` &rarr; Cancels several consecutive jobs you can use.
-	-   `scancel -u <username>` &rarr; To cancel all jobs of a specific user 
 
 -   `sinfo` &rarr; View information about Slurm nodes and partitions.
 
 -   `module avail` &rarr; Shows what modules are available to load.
 
--   `sbatch` &rarr; Submits script for a later execution. You can set options such as the number of tasks, the maximum execution time, the partition we want to use, the number of nodes we want to use for this job, etc
-	-   `sbatch -w node1,node2` &rarr; Chooses the node or nodes. (Not needed)
-	-  `sbatch -x node1,node2` &rarr; To exclude nodes. (Not needed)
 
 -   `srun` &rarr;  To create job allocation and launch a job step, that is to run parallel jobs.
 
--   Slurm is based on Linux, let’s not forget that we can use all the Bash commands like: `ls`, `cat`, `rm`, `mkdir`, etc
 
-File `.sl`
-================
+File `.sl`: More options
+------------------------
 
 In order to simplify the commands that we write in the cluster to run our scripts, we create a file “.sl”.
 We recommend started with the configuration commands, for example we can see here:
@@ -150,109 +220,46 @@ A real example of this section is:
         #SBATCH --partition=medium
         #SBATCH --job-name=Python_proj
         
-
-After the initial configuration, we can see the modules required by the program/script we are going to run and load, remind you that we can see the different modules available with command “module avail”.
-Here we can see an example to load Python 3.7:
-
-    module load Python/3.7.4-GCCcore-8.3.0j
-        
-
-Here we can see an example to load Matlab:
-
-    module load MATLAB
-        
-
-Finally, we will write the command to run the script/scripts we want. An example could be:
-
-    srun python helloWorld.py
-        
-
-If you’re going to run a Matlab script, here an example:
-
-    srun matlab -nodisplay -r "HEM 60 twice, exit"
-        
-
-This is enough to generate our “sl” file, but there is a lot of flexibility and we can develop it as complex as we want.
 Beyond all the available configuration commands, we can perform file manipulation, run several scripts in a sequential way... there are no limits.
 PS: Try to be careful with the resources requested to be in solidarity with the colleagues.
 
+Submit a script several times with different parameters
+------------------------------------------------------
+### Python
 
-Examples
-========
+To submit a script several times with different parameters you can use a `.sh` file (or just write the following code in the terminal) to launch your `.sl` file several times.
+An example of `.sh` file to launch an slurm file with a parameter indicating the dataset id would be:
 
-Hello World - Python
---------------------
+	for datasetid in {0..15}
+	do   
+	    sbatch --export=ALL,DATASETID=$datasetid s.sl 
+	done
 
-We are going to develop a script to print “Hello World” and the current version of Python.
+In the slurm file `s.sl`, we indicate this parameter when using `srun` as following:
 
-    import sys
-        
-        print("Hello Word")
-        print(sys.version)
-        
+	python p.py $DATASETID
+	
+And we can access this argument in python:
 
-So, we’ll need develop as well the file “.sl” to configure the Slurm run in Hipatia.
-This time, we’re going to seet a limit on the total run time (6 hours),we’re going to use just 500MB of memory and the name in the cluster will be “Python\_proj”, we’re going to save all the outputs and the errors that come out while the script is running, as our script is very simple, we don’t need more than 1 cpu per task and finally we are going to run it on partition “medium”.
-We are going to load the module “python 3.7” with the command “module load...” and we finally write the command to run the python script with “srun python...”
-We’ve the code:
+	import sys
+	sys.argv[1]
 
-    #!/bin/bash
-        #SBATCH --time=6:00:00     # Walltime 
-        #SBATCH --mem-per-cpu=500M  # memory/cpu 
-        #SBATCH --job-name=Python_proj  # CAREFUL TO CHANGE IT ALSO IN THE RUN LINE
-        #SBATCH --output=slurm-%j_out.txt
-        #SBATCH --error=slurm-%j_err.txt
-        #SBATCH --cpus-per-task=1 
-        #SBATCH --partition=medium
-        
-        module load Python/3.7.4-GCCcore-8.3.0
-        srun python helloWorld.py 
-        
+If you use multiple arguments they will be stored in the following positions of the vector `sys.argv` (`sys.argv[2]`...). The position `sys.argv[0]` stores the name of the program.
 
-Now, all that remains is to transfer these two files to the cluster, for example with the command “scp”, execute the script with the command:
+### Matlab
 
-    sbatch testHipatiaL.sl 
-        
+To submit a script several times with different parameters in Matlab you can make your script a function receiving the desired argumment as follows:
 
-We’ll receive a message with the job ID like “Submitted batch job 1170397”.
-We can check the job with the command “squ”:
+	function helloWorld(i)
+	
+Then you need specify this parameter `i` in you `.sl` file as follows (e.g. 45):
 
-    JOBID PARTITION PRIOR     NAME     USER    STATE       TIME  TIME_LIMIT  NODES CPUS TRES_P           START_TIME     NODELIST(REASON)      QOS
-        1170397    medium 14801 Python_p    adiaz  RUNNING       0:01     6:00:00      1    1    N/A  2020-10-26T15:13:21                 n001   normal
-        
+	srun matlab -r "helloWorld(45)" 
 
-When our job is finished, we will see the errors file, “1170397\_err.txt” and the outputs file “1170397\_out.txt”, an easy way to read them is with the command “cat namefile.txt”.
-In our example, we have said that it will generate the output and error files starting with the ID that Hipatia have assigned to the execution of the script, so that we can difference easily the different executions.
-We can read the output file, for example with command “cat”, like “cat 1159037\_err.txt” and “cat 1159037\_out.txt”.
 
- Example file `.sl` Matlab
-------------------------------
 
-An example of file `.sl` for Matlab:
-
-    #!/bin/bash
-        #SBATCH --time=6:00:00     # Walltime 
-        #SBATCH --mem-per-cpu=800M  # memory/cpu 
-        #SBATCH --job-name=Matlab_proj 
-        #SBATCH --output=%j_out.txt
-        #SBATCH --error=%j_err.txt
-        #SBATCH --cpus-per-task=4 
-        #SBATCH --partition=medium
-        
-        module load MATLAB
-        ## run Matlab
-        srun matlab -nodisplay -r "matlab_parfor.m, exit" 
-        ## option -noFigureWindows allows to create and save figures without opening figure
-        
-
-Once you have this .sl in your corresponding Hipatia folder (in which you also have the "matlab\_parfor.m" file), you must write the following command on terminal:
-			
-			sbatch example.sl
-			
-where I am assuming you called 'example.sl' the .sl file from above (REMARK: In order to save the text file from above as a .sl, I recommend to use a text editor from the terminal -such as 'vim'-).
-
-Appendix 1: Copying working structure
-=====================================
+File transfer using `scp`
+-------------------------
 
 To transfer files between local and server, here we suggest the SCP command that allows you to securely copy files and directories between two locations.
 When transferring data with scp, both the files and password are encrypted so that anyone snooping on the traffic doesn’t get anything sensitive.
@@ -274,8 +281,8 @@ An example of copy a directory recursively (just add argument “-r”):
     scp -P 6556 -r "/home/adiaz/Documents/minimax-risk-classifier/" adiaz@hpc.bcamath.org:/home/adiaz/
         
 
-Appendix 2: Use CVX in Matlab
-=============================
+Use CVX in Matlab
+-----------------
 
 If you need to use CVX in Matlab, Go to <http://cvxr.com/cvx/download/> and download CVX (Linux Version). **Important: Download version for linux since it is the OS of hipatia.**
 
@@ -294,23 +301,8 @@ N.B. The main of the matlab file shoud start with the following command
 Transfer all the files Matlab and the file .sl (you can just upload the whole CVX folder as well) into the cluster, using FileZilla by dragging and dropping the files from your Local site (left in the FileZilla interface) to the Remote site (right in the FileZilla interface) in the folder named as your username.
 Now that you have upload your files into the cluster, you are ready to run them.
 
-Appendix 3: Matlab licenses
-===========================
-
-You use as many Matlab licenses (statistic toolbox) as nodes you are using in the cluster. However, you use only one license if you run several jobs on the same node. Hipatia allows you to choose and exclude nodes. You can choose a specific node by typing in the command line:
-
-    sbatch -w node slurmfile.sl
-            
-
-and can exclude nodes by typing
-
-    sbatch -x node1,node2 slurmfile.sl
-            
-
-In the case of excluding nodes, we write the sequence of nodes to which we do not want to send the job. The names of nodes are separated by commas without spaces. Hipatia includes 18 nodes: n001, n002, ..., n018. If you choose a node that is complete, the job remains pending until it can be executed.
-
-Appendix 4: Use CVX in Python
-=============================
+Use CVX in Python
+-----------------
 
 _CVXPY_ module is already installed on Hipatia and can be loaded using any of the following modules - 
 
@@ -319,8 +311,8 @@ _CVXPY_ module is already installed on Hipatia and can be loaded using any of th
     SciPy-bundle/2019.10-fosscuda-2019b-Python-3.7.4
             
 
-Using MOSEK solver with CVX
----------------------------
+### Using MOSEK solver with CVX
+
 The _MOSEK_ solver is available in the following module - 
 
     Mosek/9.2.40-foss-2019b-Python-3.7.4
@@ -328,15 +320,14 @@ The _MOSEK_ solver is available in the following module -
 
 To use the solver, you also need to have license. You can get a free academic license from [here](https://www.mosek.com/products/academic-licenses/). Once you obtain the license, you have to save the license file in the mosek (you have to create this folder) folder on Hipatia server. The location of this license file would be ``/home/your_user_name/mosek/mosek.lic``
 
-Appendix 5: Use MRCpy or any other package in Python
-=============================
+Use MRCpy or any other package in Python
+----------------------------------------
 
 To install packages not available in the cluster firs it is necessary to open the terminal of the cluster and load the python module -
 
     module load Python/3.7.4-GCCcore-8.3.0
     
 Once loaded just install any package with pip in your user folder of the cluster with the command - 
-
     pip install -user <name_package>
     
 Install packages not in PyPI
@@ -348,3 +339,77 @@ To install packages not in the Python Package Index repository it is necessary t
     python setup.py install --user
     
 _Note: Make sure to have all dependencies installed to avoid posible installation errors._ 
+
+
+Examples
+========
+
+Hello World - Python
+--------------------
+
+We are going to develop a script to print “Hello World” and the current version of Python.
+
+	import sys
+
+	print("Hello Word")
+	print(sys.version)
+        
+
+So, we’ll need develop as well the file “.sl” to configure the Slurm run in Hipatia.
+This time, we’re going to seet a limit on the total run time (6 hours),we’re going to use just 500MB of memory and the name in the cluster will be “Python\_proj”, we’re going to save all the outputs and the errors that come out while the script is running, as our script is very simple, we don’t need more than 1 cpu per task and finally we are going to run it on partition “medium”.
+We are going to load the module “python 3.7” with the command “module load...” and we finally write the command to run the python script with “srun python...”
+We’ve the code:
+
+	#!/bin/bash
+	#SBATCH --time=6:00:00     # Walltime 
+	#SBATCH --mem-per-cpu=500M  # memory/cpu 
+	#SBATCH --job-name=Python_proj  # CAREFUL TO CHANGE IT ALSO IN THE RUN LINE
+	#SBATCH --output=slurm-%j_out.txt
+	#SBATCH --error=slurm-%j_err.txt
+	#SBATCH --cpus-per-task=1 
+	#SBATCH --partition=medium
+
+	module load Python/3.7.4-GCCcore-8.3.0
+	srun python helloWorld.py 
+        
+
+Now, all that remains is to transfer these two files to the cluster, for example with the command “scp”, execute the script with the command:
+
+	sbatch testHipatia.sl 
+
+We’ll receive a message with the job ID like “Submitted batch job 1170397”.
+We can check the job with the command `squ`:
+
+	JOBID   PARTITION PRIOR     NAME     USER    STATE       TIME  TIME_LIMIT  NODES CPUS TRES_P           START_TIME     NODELIST(REASON)      QOS
+	1170397    medium 14801 Python_p    adiaz  RUNNING       0:01     6:00:00      1    1    N/A  2020-10-26T15:13:21                 n001   normal
+        
+
+When our job is finished, we will see the errors file, “1170397\_err.txt” and the outputs file “1170397\_out.txt”, an easy way to read them is with the command “cat namefile.txt”.
+In our example, we have said that it will generate the output and error files starting with the ID that Hipatia have assigned to the execution of the script, so that we can difference easily the different executions.
+We can read the output file, for example with command “cat”, like “cat 1159037\_err.txt” and “cat 1159037\_out.txt”.
+
+Example file `.sl` Matlab
+------------------------------
+
+An example of file `.sl` for Matlab:
+
+	#!/bin/bash
+	#SBATCH --time=6:00:00     # Walltime 
+	#SBATCH --mem-per-cpu=800M  # memory/cpu 
+	#SBATCH --job-name=Matlab_proj 
+	#SBATCH --output=%j_out.txt
+	#SBATCH --error=%j_err.txt
+	#SBATCH --cpus-per-task=4 
+	#SBATCH --partition=medium
+
+module load MATLAB
+## run Matlab
+srun matlab -nodisplay -r "matlab_parfor.m, exit" 
+## option -noFigureWindows allows to create and save figures without opening figure
+        
+
+Once you have this .sl in your corresponding Hipatia folder (in which you also have the "matlab\_parfor.m" file), you must write the following command on terminal:
+			
+	sbatch example.sl
+			
+where I am assuming you called 'example.sl' the .sl file from above (REMARK: In order to save the text file from above as a .sl, I recommend to use a text editor from the terminal -such as 'vim'-).
