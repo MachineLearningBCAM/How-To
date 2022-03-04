@@ -154,7 +154,7 @@ The memory limit is the limit of the node with the most memory installed. Once a
 
 The role of Slurm is to match those resources to **jobs**. A job comprises one or more (sequential) **steps**, and each step has one or more (parallel) **tasks**. A task is an instance of a running program, i.e. at a process, possibly along with subprocesses or software threads.
 
-- `--ntasks=N` &rarr; Reserves N cores to allocate 1 process on each of them (`N` = number of precesses).
+- `--ntasks=N` &rarr; Reserves N cores to allocate 1 process on each of them (`N` = number of precesses) (`N=1` by default).
 - `--ntasks-per-node=N` &rarr; Makes a per-node task reservation to reserve a homogeneous number of cores per node, and assign each of those cores to a process  (`N` = number of precesses).
 - `--cpus-per-task=N` &rarr; Refers to the number of threads that que aplication is going to need for each created procces  (`N` = number of threads).
 
