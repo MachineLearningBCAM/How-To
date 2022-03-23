@@ -35,7 +35,7 @@ Just hit Enter and that is it.
 After that, the only thing you need to do to use it is run on your Matlab:
 
     cvx_setup
-    cvx_solvers gurobi
+    cvx_solver gurobi
     
 To set it as default solver, run
 
@@ -61,7 +61,7 @@ To use the mosek solver, we need to wait until we receive the mail from mosek wi
 After that, the only thing you need to do to use it is run on your Matlab:
 
     cvx_setup
-    cvx_solvers mosek
+    cvx_solver mosek
     
 To set it as default solver, run
 
