@@ -296,7 +296,7 @@ Put all your matlab files (main and functions) and the file .sl in the folder CV
 
 N.B. The main of the matlab file shoud start with the following command 
 
-    cvx setup
+    cvx_setup
 
 Transfer all the files Matlab and the file .sl (you can just upload the whole CVX folder as well) into the cluster, using FileZilla by dragging and dropping the files from your Local site (left in the FileZilla interface) to the Remote site (right in the FileZilla interface) in the folder named as your username.
 Now that you have upload your files into the cluster, you are ready to run them.
