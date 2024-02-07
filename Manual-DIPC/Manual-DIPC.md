@@ -1,58 +1,36 @@
 # Introduction
 
-***IMPORTANT NOTE: DUE TO TEMPORARY REMOVAL OF AC-01 AND AC-02 ACCESS NODES AND UNMOUNTING OF /DIPC ON ATLAS-EDR COMPUTING NODES, SOME ASPECTS SUCH AS LOGIN, CONNECTING TO FILEZILLA AND LOADING CONDA ENVIRONMENTS HAVE SLIGHTLY CHANGE. PLEASE READ THE BOLD COMMENTS IN THIS HOW-TO FOR FURTHER INFORMATION.***
-
 This is a basic guide on how to use the HPC systems hosted by the DIPC Supercomputing Center. There are two different hosted HPC systems that we can use: Atlas EDR and Altas FDR
 
-- **Atlas EDR**:	Based on SLURM. HPC system running a total of 45 nodes and features a total of 2224 cores and 15 TB of distributed memory. Some of the nodes are powered with either one or two NVIDIA Tesla P40 GPGPUS. The network technlogy interconnection the nodes is a fat-tree topology EDR Infiniband at 100 Gbps with a 5:1 blocking factor.
+- **Atlas EDR**:	Based on SLURM (like Hipatia). HPC system running a total of 45 nodes and features a total of 2224 cores and 15 TB of distributed memory. Some of the nodes are powered with either one or two NVIDIA Tesla P40 GPGPUS. The network technlogy interconnection the nodes is a fat-tree topology EDR Infiniband at 100 Gbps with a 5:1 blocking factor.
 
 - **Atlas FDR**:	Based on TORQUE. A cluster type HPC system running a total of 210 nodes and features a total of 6100 computing cores and 80 TB of distributed RAM memory. The network technology interconnection the nodes is a FDR Infiniband at 56 Gbps with a fat-tree topology with a 5:1 blocking factor.
 
-# Login (Under maintenance)
-***TEMPORARY REMOVAL OF AC-01 AND AC-02 ACCESS NODES AND UNMOUNTING OF /DIPC ON ATLAS-EDR COMPUTING NODES***
 
-***WHILE AC-01 AND AC-02 ACCESS NODES ARE REMOVED LOG IN FOLLOWING THE NEXT SUBSECTION: "Login while connected to EHU/UPVs VPN", WHETHER YOU ARE CONNECTED TO EHU/UPVs VPN OR NOT.***
+# Getting an account
+In order to utilize the high performance computing (HPC) resources offered by DIPC, you are required to have a valid DIPC cluster account. 
+If you don't possess one yet, you are encouraged to apply for an account.
+Please fill out the necessary form, which can be accessed through the following [link](https://scc.dipc.org/docs/access/accounts/files/dipc_account_form.pdf), and send it via email to IT.
 
-Prior connecting to Atlas EDR or Atlas FDR you need to establish connection with the access nodes first. In order to do that, a SSH client is necessary. Please, refer to [SSH](http://dipc.ehu.es/cc/computing_resources/general/connect/ssh/) for more information.
+# Login
 
-    ssh user@ac.sw.ehu.es
- 
-You can also establish connection with access nodes manually:
+Open a Terminal to establish a connection with the login node of any of out HPC systems:
 
-    ssh username@ac-01.sw.ehu.es
-    ssh username@ac-02.sw.ehu.es
+```
+ssh username@atlas-edr.sw.ehu.es # recommended
+ssh username@atlas-fdr.sw.ehu.es
+```
 
-Once you are logged into an access node you can establish a connection with the login node of any of the HPC systems:
+You will need to replace `username` with the username you were assigned in the confirmation email from DIPC and enter your password.
 
-    ssh atlas-fdr 
-    ssh atlas-edr
-You can also choose the login node you want to connect to.
-- Atlas-EDR has 2 login nodes (`atlas-edr-login-01.sw.ehu.es` and `atlas-edr-login-02.sw.ehu.es`). Each node has two sockets populated with a 48 core Intel Xeon Platinum 8260 each.
-Each node has 64 GB of RAM.
-- Atlas FDR has 2 login nodes (`atlas-fdr-login-01.sw.ehu.es` and `atlas-fdr-login-02.sw.ehu.es`). Each node has two sockets populated with a 6 core Intel Xeon E5-2609 v3 each.
-Each node has 64 GB of RAM.
-For example,
-
-    ssh atlas-edr-login-01.sw.ehu.es
-
-## Login while connected to EHU/UPVs VPN
-*Note:* It is **not** necessary to have access to the EHU/UPVs VPN, we are giving options to perform every action without it. But we explain this option because in some cases it may be easier or quicker to use it if you can.
-
-As long as you are in the subnet using EHU/UPVs VPN, you also establish direct connection with the login nodes (no need to connect first to access nodes). 
-
-    ssh username@atlas-edr-login-01.sw.ehu.es
-    ssh username@atlas-edr-login-02.sw.ehu.es
-    
-    ssh username@atlas-fdr-login-01.sw.ehu.es
-    ssh username@atlas-fdr-login-02.sw.ehu.es
-    
+Please, refer to [SSH](http://dipc.ehu.es/cc/computing_resources/general/connect/ssh/) for more information.
 
 # File system
 There is a home directory `/dipc/username` **shared** along the access nodes, Altas EDR and Atlas FDR (it runs on top of a Ceph parallel filesystem). It is intended for permanent file storage, ***not* for running your scripts**. Your shell refers to it as “∼” (tilde), and its absolute path is also stored in the environment variable $HOME. Daily backups of these directories are performed and backups are saved up to 2 months old.
 
 The **directory meant to be used as the work space** for jobs is `/scratch/username`. It is **not shared**: each HPC system has its own `/scratch` directory. It is a shared high performance storage that system provides access to large amounts of disk for short periods of time at much higher speed than `/dipc`.
 
-Remember that `/scratch` filesystems are not meant to be used as a permanent storage solution.
+Remember that `/scratch` filesystems are not meant to be used as a permanent storage solution (the capacity is capped at 1.5 TB).
 
 # File transfer
 To transfer files between local and server, you can either use bash commands or use a visual software like Fillezilla.
@@ -72,9 +50,7 @@ To move files from one folder to another:
 
 ## FileZilla
 
-***TEMPORARY REMOVAL OF AC-01 AND AC-02 ACCESS NODES AND UNMOUNTING OF /DIPC ON ATLAS-EDR COMPUTING NODES***
 
-***WHILE AC-01 AND AC-02 ACCESS NODES ARE REMOVED LOG IN FOLLOWING THE NEXT SUBSECTION: "With EHU/UPVs VPN", WHETHER YOU ARE CONNECTED TO EHU/UPVs VPN OR NOT.***
 
 ### General: Without EHU/UPVs VPN
 <!-- There are tho options to use FileZilla while not being connected to  EHU/VPN:
@@ -86,19 +62,11 @@ To move files from one folder to another:
 
 - Option 2. -->
 
-Create a SSH tunnel via the access nodes to establish a direct connection with the login nodes. In this way you can only connect to one cluster at a time Atlas EDR or Atlas FDR. Perform the following steps:
-
-  1. Set up the tunnel from the command line and keep the connection alive
-  
-          ssh -L 2222:atlas-edr-login-0X.sw.ehu.es:22 username@ac-0Y.sw.ehu.es 
-     Where X specifies the login node (can be 1 or 2) and Y specifies the access node (can be 1 or 2).
-
-  2. Open FileZilla and set it up as follows:
-    - Protocol: SFTP - SSH
-    - Host: localhost
-    - Port: 22
-    - User: username
-  If you want to change connections between clusters, terminate the tunnel with `exit`, close the connection in FileZilla and repeat the process.
+Open FileZilla and set it up as follows:
+- Protocol: SFTP - SSH
+- Host: atlas-edr.sw.ehu.es
+- User: `username`
+- Password: your Atlas password
   
 ### With EHU/UPVs VPN
 As long as you are in the subnet using EHU/UPVs VPN, you can establish direct connection with the login nodes and therefore with FileZilla:
@@ -112,7 +80,7 @@ New connection:
 
 # Atlas EDR
 ## Job submission
-Atlas EDR is based on Slurm, like BCAM's cluster Hipatia (You can see a wider description of this in [Hipatia's manual](https://github.com/MachineLearningBCAM/How-To/blob/main/Manual-Hipatia/hipatia.md) or directly in [DIPC Documentation](http://dipc.ehu.es/cc/computing_resources/systems/atlas-edr/)). There are some differences like the available partitions or how to load modules. To submit a job it is recommended to write a `.sl` file to to simplify the commands that we write in the cluster to run our scripts. Simple example:
+Atlas EDR is based on Slurm, like BCAM's cluster Hipatia (You can see a wider description of this in [Hipatia's manual](https://github.com/MachineLearningBCAM/How-To/blob/main/Manual-Hipatia/hipatia.md) or directly in [DIPC Documentation](http://dipc.ehu.es/cc/computing_resources/systems/atlas-edr/)). There are some differences like the available partitions or how to load modules. To submit a job it is recommended to write a `.sl` file to simplify the commands that we write in the cluster to run our scripts. Simple example:
 
     #!/bin/bash
     #SBATCH --partition=bcam-exclusive
@@ -146,7 +114,13 @@ On the other hand, you also have the possibility to use a **GPU Quadro RTX 8000*
 
     #SBATCH --gres=gpu:rtx8000:1
     
-Note: The total memory of each node in the bcam-exclusive partition is 96GB. Therefore the specification `--mem-per-cpu` cannot exceed this limit. If you need more memory, yoy can run your job in a shared DIPC node.
+*Note*: if your ATLAS account was not activated correctly, when using BCAM's exclusive partition, the following error can be raised
+```
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+```
+In this case, the unique solution is to contact DIPC's support.
+
+*Note*: The total memory of each node in the bcam-exclusive partition is 96GB. Therefore the specification `--mem-per-cpu` cannot exceed this limit. If you need more memory, yoy can run your job in a shared DIPC node.
 
 ### Shared Partitions
 The available partitions on Atlas EDR shared with other organizations are:
@@ -162,6 +136,7 @@ xlarge|	200|	2-00:00:00	|40|	1
 serial	|200|	1-00:00:00	|12	|120		
 
 *Note:* The notation used is `days-hours:minutes:seconds`.
+
 
 ## Module loading
 Another difference with Hipatia is the names of the modules. To list the modules available to load: `module avail`.
@@ -217,6 +192,68 @@ Then you are activating this environment in your slurm file:
     python <filename>.py
     
 You can find more info on conda environments in the [conda documentation](https://docs.conda.io/projects/conda/en/4.6.1/user-guide/tasks/manage-environments.html) and in the [DIPC manual](http://dipc.ehu.es/cc/computing_resources/programming/languages/python/python/#default-python-version).
+
+### MATLAB
+Different versions of MATLAB can be listed by using the `module spider` command as shown below:
+```
+module spider MATLAB
+```
+Since Atlas EDR is based on SLURM, the procedure to submit a job is the same as in Hipatia. 
+However, the `.sl` will be stilightly different.
+To run a MATLAB script, say `test.m`, we need to both load MATLAB and execute the script in the `.sl` file:
+```
+module load MATLAB/R2020b
+matlab -nodisplay -nosplash -singleCompThread < test.m > output.log
+```
+
+Here is an example illustrating how to use MATLAB with cvx at ATLAS.
+In order to properly use cvx, the folder should be located inside `/scratch/username`.
+If we do not place the cvx folder in the same directory as the main script, we will have to add the MATLAB `addpath` function in our main script, and specify the relative path of the folder.
+
+For instance, consider the following `slurm.sl` file
+```
+#!/bin/bash
+#SBATCH --partition=bcam-exclusive
+#SBATCH --account=bcam-exclusive
+#SBATCH --job-name=MATLAB_test
+#SBATCH --cpus-per-task=1
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --output=%x-%j.out
+#SBATCH --error=%x-%j.err
+
+module load MATLAB/R2020b
+
+matlab -nodisplay -nosplash -singleCompThread < test.m > output.log
+```
+together with the following MATLAB script `test.m`:
+```
+clear
+addpath("../cvx")
+cvx_setup
+cvx_solver mosek
+cvx_save_prefs
+m = 16; n = 8;
+A = randn(m,n);
+b = randn(m,1);
+x_ls = A \ b;
+cvx_begin quiet
+    variable x(n)
+    minimize( norm(A*x-b) )
+cvx_end
+mkdir("results")
+save("results/solutions.mat","x","x_ls")
+exit
+```
+The job is submitted using `sbatch`
+```
+sbatch slurm.sl
+```
+
+*Note*: It is recommended to end your main script with an `exit` statement to ensure MATLAB quits after execution.
+
+
+
 # Atlas FDR
 ## Job submission
 Atlas FDR is based on Torque.
