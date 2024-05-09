@@ -22,8 +22,16 @@ ssh username@atlas-fdr.sw.ehu.es
 ```
 
 You will need to replace `username` with the username you were assigned in the confirmation email from DIPC and enter your password.
+You will be asked to change your temporal password, and the new password must meet the following criteria:
 
-Please, refer to [SSH](http://dipc.ehu.es/cc/computing_resources/general/connect/ssh/) for more information.
+- It must contain at least two uppercase characters.     
+- It must include at least two lowercase characters.
+- It must have at least two digits.     
+- It must feature at least two special characters.     
+- It should be at least 8 characters in length.     
+- It should not be a repetition or overly similar to any of your previous passwords.
+
+Please, refer to [SSH](http://dipc.ehu.es/cc/computing_resources/general/connect/ssh/) and [accounts](https://scc.dipc.org/docs/access/accounts/) for more information.
 
 # File system
 There is a home directory `/dipc/username` **shared** along the access nodes, Altas EDR and Atlas FDR (it runs on top of a Ceph parallel filesystem). It is intended for permanent file storage, ***not* for running your scripts**. Your shell refers to it as “∼” (tilde), and its absolute path is also stored in the environment variable $HOME. Daily backups of these directories are performed and backups are saved up to 2 months old.
