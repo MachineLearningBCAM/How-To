@@ -260,6 +260,37 @@ sbatch slurm.sl
 
 *Note*: It is recommended to end your main script with an `exit` statement to ensure MATLAB quits after execution.
 
+#### Running MATLAB functions using .sh files
+
+If we want to run a MATLAB function `example(a, b)` inside the file `example.m`, where a and b are variables that can take different values, we create a `slurm_loop.sh` file of the form:
+```
+for s_a in {1..3}
+do
+    for s_b in {1..2}  
+    do
+        sbatch --export=ALL,a=$s_a,b=$s_b slurm.sl 
+    done 
+done
+```
+and we create the following `slurm.sl` file of the form:
+```
+#!/bin/bash
+#SBATCH --partition=bcam-exclusive
+#SBATCH --account=bcam-exclusive
+#SBATCH --job-name=Task_1  # CAREFUL TO CHANGE IT ALSO IN THE RUN LINE
+#SBATCH --cpus-per-task=8
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --output=par%j.txt
+#SBATCH --error=par%j_error.txt
+
+module load MATLAB/R2022a-IKUR
+
+matlab -nodisplay -nosplash -r "example($a, $b)" output.log
+```
+*Note*: If we want to use any MATLAB package such as statistic toolbox we need to load MATLAB/R2020b-IKUR or MATLAB/R2022a-IKUR
+
+
 
 
 # Atlas FDR
