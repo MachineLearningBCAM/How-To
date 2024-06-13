@@ -19,6 +19,7 @@ Open a Terminal to establish a connection with the login node of any of out HPC 
 ```
 ssh username@atlas-edr.sw.ehu.es # recommended
 ssh username@atlas-fdr.sw.ehu.es
+ssh username@hyperion.sw.ehu.es # recommended
 ```
 
 You will need to replace `username` with the username you were assigned in the confirmation email from DIPC and enter your password.
@@ -82,7 +83,8 @@ New connection:
 - Protocol: SFTP
 - Host: 
   - For Atlas EDR: `atlas-edr-login-01.sw.ehu.es` or `atlas-edr-login-02.sw.ehu.es` 
-  - For Atlas FDR: `atlas-fdr-login-01.sw.ehu.es` or `atlas-fdr-login-02.sw.ehu.es` 
+  - For Atlas FDR: `atlas-fdr-login-01.sw.ehu.es` or `atlas-fdr-login-02.sw.ehu.es`
+  - For Hyperion:  `hyperion-01.sw.ehu.es`
 - Port: 22
 - User: username
 
