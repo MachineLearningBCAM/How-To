@@ -286,11 +286,11 @@ and we create the following `slurm.sl` file of the form:
 #SBATCH --output=par%j.txt
 #SBATCH --error=par%j_error.txt
 
-module load MATLAB/R2022a-IKUR
+module load MATLAB-IKUR/R2022a
 
 matlab -nodisplay -nosplash -r "example($a, $b)" output.log
 ```
-*Note*: If we want to use any MATLAB package such as statistic toolbox we need to load MATLAB/R2020b-IKUR or MATLAB/R2022a-IKUR
+*Note*: If we want to use any MATLAB package such as statistic toolbox we need to load MATLAB-IKUR/R2020b or MATLAB-IKUR/R2022a
 
 
 
