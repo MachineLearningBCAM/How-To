@@ -317,3 +317,11 @@ These are the requirements for the new password:
 - A minimum of two special characters.
 - Password must be at least 8 characters.
 - Passwords cannot be repeated or be too similar to the previous ones.
+
+## Usage of GPUS
+
+Include the following line in the slurm file
+```
+#SBATCH --gres=gpu:1
+```
+
